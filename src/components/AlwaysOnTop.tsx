@@ -17,12 +17,28 @@ export function AlwaysOnTop(
       height: '3.5rem',
       width: '3.5rem',
       padding: 0,
+      //
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      //
       borderRadius: 'calc(infinity*1px)',
+      //
+      backgroundColor: '#d3d3d3',
     },
     onClick: () => setTop(!top),
   }
-  return <button {...newProps}>{top ? <Pin /> : <PinOff />}</button>
+  return (
+    <button {...newProps}>
+      {top ? (
+        <Pin
+          style={{
+            rotate: '45deg',
+          }}
+        />
+      ) : (
+        <PinOff />
+      )}
+    </button>
+  )
 }

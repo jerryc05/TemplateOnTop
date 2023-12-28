@@ -1,0 +1,19 @@
+:root {
+  --ql-border-radius: 1rem;
+}
+
+.ql-toolbar {
+  border-top-right-radius: var(--ql-border-radius);
+  border-top-left-radius: var(--ql-border-radius);
+  background: #eaecec;
+}
+
+.ql-container {
+  border-bottom-right-radius: var(--ql-border-radius);
+  border-bottom-left-radius: var(--ql-border-radius);
+  background: #fefcfc;
+}
+
+.quill button {
+  box-shadow: none;
+}
