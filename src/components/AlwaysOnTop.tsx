@@ -20,6 +20,7 @@ export function AlwaysOnTop(
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      borderRadius: 'calc(infinity*1px)',
     },
     onClick: () => setTop(!top),
   }

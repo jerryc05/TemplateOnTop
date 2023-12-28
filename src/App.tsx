@@ -6,7 +6,7 @@ import { Quill } from './components/Quill'
 function App() {
   return (
     <>
-      <AlwaysOnTop style={{ position: 'fixed' }} />
+      <AlwaysOnTop style={{ position: 'fixed', right: 0 }} />
       <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <h1>Template Helper!</h1>
         <Quill />
