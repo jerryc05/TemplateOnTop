@@ -6,7 +6,11 @@ export function Quill() {
   const [value, setValue] = useState('')
   return (
     <ReactQuill
-      style={{ flexGrow: 1 }}
+      style={{
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
       theme='snow'
       value={value}
       onChange={setValue}

@@ -8,7 +8,7 @@ function App() {
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <h1>Template Helper!</h1>
       <AlwaysOnTop />
-      {/* <Quill /> */}
+      <Quill />
     </div>
   )
 }
