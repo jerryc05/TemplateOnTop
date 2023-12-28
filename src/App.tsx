@@ -5,11 +5,13 @@ import { Quill } from './components/Quill'
 
 function App() {
   return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <h1>Template Helper!</h1>
+    <>
       <AlwaysOnTop style={{ position: 'fixed' }} />
-      <Quill />
-    </div>
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <h1>Template Helper!</h1>
+        <Quill />
+      </div>
+    </>
   )
 }
 
