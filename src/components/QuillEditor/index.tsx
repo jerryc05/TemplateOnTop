@@ -105,9 +105,8 @@ export class QuillEditor extends React.Component {
         modules={{
           toolbar: toolbarOpt,
         }}
-        formats={formats}
+        // formats={getFormats()}
         placeholder='Write something amazing...'
-        log
       />
     )
   }
@@ -131,27 +130,32 @@ const toolbarOpt = [
   // [{ align: [] }],
 
   // ['clean'], // remove formatting button
-  [{ header: '1' }, { header: '2' }, { font: [] }],
-  [{ size: [] }],
-  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+  [{ font: [] }, { size: [] }],
+  ['bold', 'italic', 'underline', 'link', 'color', 'background'],
+  ['align', 'direction', 'code', 'code-block', 'script'],
+  ['strike', 'blockquote'],
+  [{ header: '1' }, { header: '2' }, { header: '3' }],
+  ['formula', 'image', 'video'],
   [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-  ['link', 'image', 'video'],
   ['clean'],
 ]
 
-const formats = [
-  'header',
-  'font',
-  'size', //
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote', //
-  'list',
-  'bullet',
-  'indent', //
-  'link',
-  'image',
-  'video', //
-]
+// const formats_: string[] = []
+
+// function getFormats() {
+//   if (formats_.length === 0) {
+//     toolbarOpt.forEach(opt => {
+//       opt.forEach(x => {
+//         if (typeof x === 'string') formats_.push(x)
+//         else {
+//           Object.entries(x).forEach(([key, value]) => {
+//             formats_.push(key)
+//             if (typeof value === 'string') formats_.push(value)
+//           })
+//         }
+//       })
+//     })
+//     console.log(formats_)
+//   }
+//   return formats_
+// }
