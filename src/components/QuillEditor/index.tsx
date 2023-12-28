@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill'
-import 'quill/dist/quill.snow.css'
+import 'react-quill/dist/quill.snow.css'
 import './index.css'
 
 // export function QuillEditor() {
@@ -93,6 +93,10 @@ export class QuillEditor extends React.Component {
       <ReactQuill
         style={{
           flexGrow: 1,
+          //
+          padding: '1rem',
+          paddingTop: 0,
+          //
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -103,6 +107,7 @@ export class QuillEditor extends React.Component {
         }}
         formats={formats}
         placeholder='Write something amazing...'
+        log
       />
     )
   }

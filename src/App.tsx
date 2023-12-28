@@ -1,6 +1,4 @@
 // import { invoke } from '@tauri-apps/api/tauri'
-import React from 'react'
-import './App.css'
 import { AlwaysOnTop } from './components/AlwaysOnTop'
 import { QuillEditor } from './components/QuillEditor'
 
@@ -12,12 +10,11 @@ export const App = () => (
     <div
       style={{
         height: '100%',
-        margin: '0 1rem',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      <h1>Template Helper!</h1>
+      <h1 style={{ textAlign: 'center' }}>Template Helper!</h1>
       <QuillEditor />
     </div>
   </>
