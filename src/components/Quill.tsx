@@ -4,5 +4,12 @@ import 'react-quill/dist/quill.snow.css'
 
 export function Quill() {
   const [value, setValue] = useState('')
-  return <ReactQuill theme='snow' value={value} onChange={setValue} />
+  return (
+    <ReactQuill
+      style={{ flexGrow: 1 }}
+      theme='snow'
+      value={value}
+      onChange={setValue}
+    />
+  )
 }
