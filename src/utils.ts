@@ -3,3 +3,7 @@ export const FONT_WEB_OUTLOOK_FALLBACK =
 export const FONT_WEB_JP_FALLBACK =
   "'Yu Gothic', 'YuGothic', 'Meiryo', 'Hiragino Kaku Gothic Pro', 'Hiragino Sans', 'Osaka'"
 export const FONT_YAHEI = "'Microsoft YaHei', 微软雅黑"
+export const FONT_HEITI = 'SimHei, 黑体'
+export const FONT_SONGTI = 'SimSun, 宋体'
+export const FONT_FANGSONG = 'FangSong, 仿宋'
+export const FONT_KAITI = 'KaiTi, 楷体'

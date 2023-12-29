@@ -5,25 +5,26 @@ import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 import '@wangeditor/editor/dist/css/style.css'
 import './index.css'
 import {
+  FONT_FANGSONG,
+  FONT_HEITI,
+  FONT_KAITI,
+  FONT_SONGTI,
   FONT_WEB_JP_FALLBACK,
   FONT_WEB_OUTLOOK_FALLBACK,
   FONT_YAHEI,
 } from '../../utils'
 
 const fontFamilyList = [
-  {
-    name: '微软雅黑',
-    value: FONT_YAHEI,
-  },
+  { name: '微软雅黑', value: FONT_YAHEI },
   { name: 'Meiryo UI', value: `Meiryo UI, ${FONT_WEB_JP_FALLBACK}` },
   { name: 'Meiryo', value: `Meiryo, ${FONT_WEB_JP_FALLBACK}` },
-  '黑体',
-  '仿宋',
-  '楷体',
+  { name: '黑体', value: FONT_HEITI },
+  { name: '仿宋', value: FONT_FANGSONG },
+  { name: '楷体', value: FONT_KAITI },
   '标楷体',
   '华文仿宋',
   '华文楷体',
-  '宋体',
+  { name: '宋体', value: FONT_SONGTI },
   'Arial',
   'Tahoma',
   'Verdana',
