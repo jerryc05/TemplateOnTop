@@ -4,14 +4,19 @@ import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 
 import '@wangeditor/editor/dist/css/style.css'
 import './index.css'
-import { FONT_WEB_OUTLOOK_FALLBACK, FONT_YAHEI } from '../../utils'
+import {
+  FONT_WEB_JP_FALLBACK,
+  FONT_WEB_OUTLOOK_FALLBACK,
+  FONT_YAHEI,
+} from '../../utils'
 
 const fontFamilyList = [
   {
     name: '微软雅黑',
     value: FONT_YAHEI,
   },
-  'Meiryo UI',
+  { name: 'Meiryo UI', value: `Meiryo UI, ${FONT_WEB_JP_FALLBACK}` },
+  { name: 'Meiryo', value: `Meiryo, ${FONT_WEB_JP_FALLBACK}` },
   '黑体',
   '仿宋',
   '楷体',
