@@ -24,7 +24,9 @@
       "active": true,
       "targets": "all",
       "identifier": "icu.jerryc05",
-      "icon": []
+      "icon": [
+        "icons/icon.ico"
+      ]
     },
     "security": {
       "csp": null
