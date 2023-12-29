@@ -16,7 +16,7 @@ export const App = () => (
       }}
     >
       <h1 style={{ textAlign: 'center' }}>Template Helper!</h1>
-      <Editor style={{ margin: '2rem', flexGrow: 1 }} />
+      <Editor style={{ flexGrow: 1, margin: '2rem', marginTop: 0 }} />
     </div>
   </>
 )

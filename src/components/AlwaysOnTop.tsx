@@ -26,7 +26,7 @@ export function AlwaysOnTop(
           borderWidth: 0,
           borderRadius: 'calc(infinity*1px)',
           //
-          // backgroundColor: '#d3d3d3',
+          backgroundColor: 'transparent',
           cursor: 'pointer',
           boxShadow: '0.1rem 0.1rem 1rem #666',
         },
