@@ -4,7 +4,38 @@ import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 
 import '@wangeditor/editor/dist/css/style.css'
 import './index.css'
-import { FONT_YAHEI } from '../../utils'
+import { FONT_WEB_OUTLOOK_FALLBACK, FONT_YAHEI } from '../../utils'
+
+const fontFamilyList = [
+  {
+    name: '微软雅黑',
+    value: FONT_YAHEI,
+  },
+  'Meiryo UI',
+  '黑体',
+  '仿宋',
+  '楷体',
+  '标楷体',
+  '华文仿宋',
+  '华文楷体',
+  '宋体',
+  'Arial',
+  'Tahoma',
+  'Verdana',
+  'Times New Roman',
+  'Courier New',
+].map(x => {
+  if (typeof x === 'string')
+    return {
+      name: x,
+      value: `${x}, ${FONT_WEB_OUTLOOK_FALLBACK}`,
+    }
+  return {
+    name: x.name,
+    value: `${x.value}, ${FONT_WEB_OUTLOOK_FALLBACK}`,
+  }
+  return x
+})
 
 export function MyWangEditor(props: React.HtmlHTMLAttributes<HTMLElement>) {
   const [editor, setEditor] = useState<IDomEditor | null>(null)
@@ -14,23 +45,7 @@ export function MyWangEditor(props: React.HtmlHTMLAttributes<HTMLElement>) {
   const editorConfig: Partial<IEditorConfig> = {
     placeholder: 'Start writing something awesome ...',
     MENU_CONF: {
-      fontFamily: {
-        fontFamilyList: [
-          { name: '黑体', value: '黑体' },
-          '仿宋',
-          '楷体',
-          '标楷体',
-          '华文仿宋',
-          '华文楷体',
-          '宋体',
-          { name: '微软雅黑', value: FONT_YAHEI },
-          'Arial',
-          'Tahoma',
-          'Verdana',
-          'Times New Roman',
-          'Courier New',
-        ],
-      },
+      fontFamily: { fontFamilyList },
     },
   }
 
