@@ -16,7 +16,7 @@ export function MyWangEditor(props: React.HtmlHTMLAttributes<HTMLElement>) {
     MENU_CONF: {
       fontFamily: {
         fontFamilyList: [
-          '黑体',
+          { name: '黑体', value: '黑体' },
           '仿宋',
           '楷体',
           '标楷体',
