@@ -24,7 +24,7 @@ body {
   border: 0;
   height: 100%;
 }
-
+/*
 input,
 button {
   border-radius: 8px;
@@ -54,7 +54,7 @@ button:active {
 input,
 button {
   outline: none;
-}
+} */
 
 /* @media (prefers-color-scheme: dark) {
   :root {
