@@ -1,13 +1,13 @@
 // import { invoke } from '@tauri-apps/api/tauri'
-import { AlwaysOnTop } from './components/AlwaysOnTop'
+import { AlwaysOnTop } from './components/AlwaysOnTop' 
 // import { QuillEditor as Editor } from './components/QuillEditor'
 import { MyWangEditor as Editor } from './components/WangEditor'
 
 export const App = () => (
   <>
-    <AlwaysOnTop
-      style={{ position: 'fixed', right: '3rem', bottom: '3rem', zIndex: 10 }}
-    />
+  <AlwaysOnTop
+    style={{ position: 'fixed', right: '3rem', bottom: '3rem', zIndex: 10 }}
+  />
     <div
       style={{
         height: '100%',

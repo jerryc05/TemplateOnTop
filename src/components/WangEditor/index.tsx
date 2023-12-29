@@ -13,6 +13,8 @@ import {
   FONT_WEB_OUTLOOK_FALLBACK,
   FONT_YAHEI,
 } from '../../utils'
+import { CopyBtn } from '../CopyBtn'
+import { writeText } from '@tauri-apps/api/clipboard'
 
 const fontFamilyList = [
   { name: '微软雅黑', value: FONT_YAHEI },
@@ -65,6 +67,12 @@ export function MyWangEditor(props: React.HtmlHTMLAttributes<HTMLElement>) {
 
   return (
     <>
+      <CopyBtn
+        style={{ position: 'fixed', right: '8rem', bottom: '3rem', zIndex: 10 }}
+        onClick={() => {
+          writeText(html).catch(alert)
+        }}
+      />
       <div
         {...{
           ...props,

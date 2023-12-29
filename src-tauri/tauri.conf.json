@@ -12,12 +12,11 @@
   "tauri": {
     "allowlist": {
       "all": false,
-      "shell": {
-        "all": false,
-        "open": true
-      },
       "window": {
         "setAlwaysOnTop": true
+      },
+      "clipboard": {
+        "writeText": true
       }
     },
     "bundle": {
