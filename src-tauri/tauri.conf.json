@@ -26,7 +26,19 @@
       "identifier": "icu.jerryc05",
       "icon": [
         "icons/icon.ico"
-      ]
+      ],
+      "windows": {
+        "nsis": {
+          "languages": [
+            "English",
+            "SimpChinese"
+          ]
+        },
+        "webviewInstallMode": {
+          "silent": false,
+          "type": "downloadBootstrapper"
+        }
+      }
     },
     "security": {
       "csp": null
