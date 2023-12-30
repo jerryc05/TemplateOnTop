@@ -1,5 +1,4 @@
 import { TbCopy } from 'react-icons/tb'
-import { Button } from '@nextui-org/react'
 
 export function CopyBtn({
   className,
