@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { TbPinned, TbPinnedOff } from 'react-icons/tb'
+import { Button } from '../shadcnui/ui/button'
 
 export function AlwaysOnTop({
   className,
@@ -12,15 +13,11 @@ export function AlwaysOnTop({
   // }, [top])
 
   return (
-    <Button
-      color='primary'
-      size='lg'
-      className={'p-1 px-3 ' + className}
-      variant={top ? 'ghost' : 'solid'}
-      startContent={top ? <TbPinned /> : <TbPinnedOff />}
-      onClick={() => setTop(!top)}
-    >
-      {'已' + (top ? '' : '取消') + '置顶'}
+    <Button variant={top ? 'outline' : 'default'} onClick={() => setTop(!top)}>
+      <div className={'p-1 px-3 ' + className}>
+        {top ? <TbPinned /> : <TbPinnedOff />}
+        {'已' + (top ? '' : '取消') + '置顶'}
+      </div>
     </Button>
   )
 }
