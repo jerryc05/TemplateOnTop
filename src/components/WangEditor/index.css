@@ -1,0 +1,7 @@
+.w-e-text-container [data-slate-editor] p {
+  margin: 0;
+}
+
+.w-e-text-container [data-slate-editor] {
+  padding-top: 15px;
+}

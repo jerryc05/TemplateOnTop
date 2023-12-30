@@ -4,7 +4,7 @@ import './index.css'
 import { NextUIProvider } from '@nextui-org/react'
 
 render(
-  <NextUIProvider>
+  <NextUIProvider className='h-full'>
     <App />
   </NextUIProvider>,
   document.getElementById('app')!

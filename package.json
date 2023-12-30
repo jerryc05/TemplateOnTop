@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-react": "^1.0.6",
     "framer-motion": "^10.16.16",
-    "preact": "^10.19.3"
+    "preact": "^10.19.3",
+    "react-icons": "^4.12.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.7.0",
