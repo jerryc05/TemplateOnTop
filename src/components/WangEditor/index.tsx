@@ -12,8 +12,8 @@ import {
   FONT_WEB_JP_FALLBACK,
   FONT_WEB_OUTLOOK_FALLBACK,
   FONT_YAHEI,
-} from '../../utils'
-import { CopyBtn } from '../CopyBtn'
+} from '@/utils'
+import { CopyBtn } from './CopyBtn'
 
 const fontFamilyList = [
   { name: '微软雅黑', value: FONT_YAHEI },
@@ -43,7 +43,9 @@ const fontFamilyList = [
   }
 })
 
-export function MyWangEditor(props: Readonly<React.HTMLAttributes<HTMLDivElement>>) {
+export function MyWangEditor(
+  props: Readonly<React.HTMLAttributes<HTMLDivElement>>
+) {
   const [editor, setEditor] = useState<IDomEditor | null>(null)
   const [html, setHtml] = useState('')
 
@@ -65,9 +67,7 @@ export function MyWangEditor(props: Readonly<React.HTMLAttributes<HTMLDivElement
 
   return (
     <>
-      <CopyBtn
-        className='fixed right-10 bottom-24 z-10'
-      />
+      <CopyBtn className='fixed right-10 bottom-24 z-10' />
       <div
         {...{
           ...props,
@@ -90,7 +90,9 @@ export function MyWangEditor(props: Readonly<React.HTMLAttributes<HTMLDivElement
           defaultConfig={editorConfig}
           value={html}
           onCreated={setEditor}
-          onChange={editor => setHtml(editor.getHtml())}
+          onChange={editor => {
+            setHtml(editor.getHtml())
+          }}
           mode='default'
           style={{ flexGrow: 1 }}
         />
