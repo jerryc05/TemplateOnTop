@@ -7,13 +7,11 @@ export function CopyBtn({
 }>) {
   return (
     <Button
-      // color='primary'
-      // size='lg'
-      className={'p-1 px-3 ' + className}
+      className={`w-14 h-14 p-0 rounded-full shadow-2xl hover:scale-110 active:scale-100 ${className}`}
       variant='outline'
-      // onClick={() => {}}
     >
-      <Copy /> 复制
+      <Copy />
+      {/* 复制 */}
     </Button>
   )
 }

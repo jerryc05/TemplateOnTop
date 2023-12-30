@@ -67,7 +67,7 @@ export function MyWangEditor(
 
   return (
     <>
-      <CopyBtn className='fixed right-10 bottom-24 z-10' />
+      <CopyBtn className='fixed right-10 bottom-28 z-10' />
       <div
         {...{
           ...props,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button } from '../shadcnui/ui/button'
 import { Pin, PinOff } from 'lucide-react'
 
@@ -8,13 +8,10 @@ export function AlwaysOnTop({
   className: React.HTMLAttributes<never>['className']
 }>) {
   const [top, setTop] = useState(true)
-  // useEffect(() => {
-  //   appWindow.setAlwaysOnTop(top)
-  // }, [top])
 
   return (
     <Button
-      className={'p-1 px-3 ' + className}
+      className={`w-14 h-14 p-0 rounded-full shadow-2xl hover:scale-110 active:scale-100 ${className}`}
       variant={top ? 'outline' : 'default'}
       onClick={() => {
         //todo
@@ -22,7 +19,7 @@ export function AlwaysOnTop({
       }}
     >
       {top ? <Pin className='rotate-45' /> : <PinOff />}
-      {'已' + (top ? '' : '取消') + '置顶'}
+      {/* {'已' + (top ? '' : '取消') + '置顶'} */}
     </Button>
   )
 }
