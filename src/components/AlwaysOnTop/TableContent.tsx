@@ -1,3 +1,4 @@
+import { Button } from '@/shadcnui/ui/button'
 import {
   Table,
   TableBody,
@@ -25,8 +26,9 @@ export function TableContent({
 }) {
   const [info, setInfo] = React.useState<WindowInfo[]>([
     {
+      hwnd: 0,
       title: 'test',
-      is_top: 1,
+      is_top: 8,
       name_of_pid: 'test',
       exe_of_pid: '/test/test/test',
     },
@@ -36,27 +38,34 @@ export function TableContent({
       <TableHeader>
         <TableRow>
           <TableHead>标题</TableHead>
-          <TableHead>已置顶</TableHead>
           <TableHead>进程名</TableHead>
           <TableHead>进程路径</TableHead>
+          <TableHead className='w-16 text-center'>置顶</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {info.map(x => (
           <TableRow key={x.hwnd}>
             <TableCell className='font-medium'>{x.title}</TableCell>
-            <TableCell>{x.is_top}</TableCell>
             <TableCell>{x.name_of_pid}</TableCell>
             <TableCell>{x.exe_of_pid}</TableCell>
+            <TableCell>
+              <Button
+                variant={x.is_top ? 'default' : 'outline'}
+                className='hover:scale-105 active:scale-100'
+              >
+                {x.is_top ? '已' : '未'}置顶
+              </Button>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
-      <TableFooter>
+      {/* <TableFooter>
         <TableRow>
           <TableCell colSpan={3}>Total</TableCell>
           <TableCell className='text-right'>$2,500.00</TableCell>
         </TableRow>
-      </TableFooter>
+      </TableFooter> */}
       {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
     </Table>
   )
