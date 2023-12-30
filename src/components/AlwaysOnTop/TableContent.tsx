@@ -1,3 +1,4 @@
+import { WindowInfo } from '@/_generated/typescript-fetch'
 import { Button } from '@/shadcnui/ui/button'
 import {
   Table,
@@ -11,28 +12,12 @@ import {
 } from '@/shadcnui/ui/table'
 import React from 'react'
 
-type WindowInfo = {
-  hwnd: number
-  title: string
-  is_top: number
-  name_of_pid?: string
-  exe_of_pid?: string
-}
-
 export function TableContent({
   setTop,
 }: {
   setTop: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-  const [info, setInfo] = React.useState<WindowInfo[]>([
-    {
-      hwnd: 0,
-      title: 'test',
-      is_top: 8,
-      name_of_pid: 'test',
-      exe_of_pid: '/test/test/test',
-    },
-  ])
+  const [info, setInfo] = React.useState<WindowInfo[] | null>(null)
   return (
     <Table>
       <TableHeader>
@@ -44,17 +29,17 @@ export function TableContent({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {info.map(x => (
+        {info?.map(x => (
           <TableRow key={x.hwnd}>
             <TableCell className='font-medium'>{x.title}</TableCell>
-            <TableCell>{x.name_of_pid}</TableCell>
-            <TableCell>{x.exe_of_pid}</TableCell>
+            <TableCell>{x.nameOfPid}</TableCell>
+            <TableCell>{x.exeOfPid}</TableCell>
             <TableCell>
               <Button
-                variant={x.is_top ? 'default' : 'outline'}
+                variant={x.isTop ? 'default' : 'outline'}
                 className='hover:scale-105 active:scale-100'
               >
-                {x.is_top ? '已' : '未'}置顶
+                {x.isTop ? '已' : '未'}置顶
               </Button>
             </TableCell>
           </TableRow>
