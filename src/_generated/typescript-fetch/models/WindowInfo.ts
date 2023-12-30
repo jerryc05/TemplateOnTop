@@ -14,7 +14,7 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * WindowInfo(*, hwnd: int, title: str, is_top: int, name_of_pid: str | None = None, exe_of_pid: str | None = None)
+ * 
  * @export
  * @interface WindowInfo
  */
@@ -36,7 +36,7 @@ export interface WindowInfo {
      * @type {number}
      * @memberof WindowInfo
      */
-    isTop: number;
+    isTop: number | null;
     /**
      * 
      * @type {string}

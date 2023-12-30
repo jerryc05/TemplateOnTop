@@ -5,7 +5,7 @@ from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from topmost import get_visible_windows, WindowInfo
+from app_topmost import get_visible_windows, WindowInfo
 
 #
 #
@@ -42,7 +42,7 @@ def visible_windows() -> "list[WindowInfo]":
 
 
 with open(working_dir / "openapi.json", "w") as f:
-    json.dump(obj=api.openapi(), fp=f)
+    json.dump(obj=api.openapi(), fp=f, indent=1)
 
 
 if __name__ == "__main__":
