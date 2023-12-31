@@ -129,7 +129,7 @@ export function TableContent() {
       </Table>
       <Button
         variant='outline'
-        className='mt-1 hover:scale-105 active:scale-90'
+        className='mt-1 active:scale-95'
         onClick={() => {
           setInfo(null)
           refresh(true).catch(console.error)
