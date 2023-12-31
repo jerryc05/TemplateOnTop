@@ -8,7 +8,7 @@ export function CopyBtn({
   editor,
 }: Readonly<{
   className: React.HTMLAttributes<never>['className']
-  editor: IDomEditor
+  editor: IDomEditor | null
 }>) {
   const [icon, setIcon] = React.useState<React.ReactNode | null>(null)
   return (
@@ -16,6 +16,7 @@ export function CopyBtn({
       className={`w-14 h-14 p-0 rounded-full shadow-2xl hover:scale-110 active:scale-100 ${className}`}
       variant='outline'
       onClick={() => {
+        if (editor == null) return
         const blob = new Blob([editor.getHtml()], { type: 'text/html' })
         const text = new Blob([editor.getText()], { type: 'text/plain' })
         navigator.clipboard
