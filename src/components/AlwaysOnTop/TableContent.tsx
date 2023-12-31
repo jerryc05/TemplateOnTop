@@ -23,47 +23,51 @@ export function TableContent() {
     (WindowInfo & { suggested?: boolean })[] | string | null
   >(null)
 
-  const refresh = useCallback(() => {
-    const uniqueId = ` - ${Date.now()}`
-    document.title += uniqueId
-    new Promise((resolve, reject) => {
-      setTimeout(resolve, 500)
-    })
-      .then(() => new DefaultApi().visibleWindowsWindowsPost())
-      .then(list_ => {
-        const list: (WindowInfo & { suggested?: boolean })[] = list_
-        list.forEach((window, idx) => {
-          if (window.title.includes(uniqueId)) {
-            list[idx].suggested = true
-            list[idx].title = window.title.replace(uniqueId, '')
-            list.unshift(list.splice(idx, 1)[0])
+  const refresh = useCallback(
+    (clearInfo: boolean) => {
+      const uniqueId = ` - ${Date.now()}`
+      document.title += uniqueId
+      if (clearInfo) setInfo(null)
+      new Promise((resolve, _reject) => {
+        setTimeout(resolve, 500)
+      })
+        .then(() => new DefaultApi().visibleWindowsWindowsPost())
+        .then(list_ => {
+          const list: (WindowInfo & { suggested?: boolean })[] = list_
+          list.forEach((window, idx) => {
+            if (window.title.includes(uniqueId)) {
+              list[idx].suggested = true
+              list[idx].title = window.title.replace(uniqueId, '')
+              list.unshift(list.splice(idx, 1)[0])
+            }
+          })
+          setInfo(list)
+        })
+        .catch(e => {
+          if (!(e instanceof ResponseError)) return
+          console.error(e)
+          console.dir(e)
+          if (e instanceof ResponseError && e.response.status === 400) {
+            e.response
+              .json()
+              .then((x: { detail: string }) => {
+                setInfo(x.detail)
+              })
+              .catch(console.error)
+          } else {
+            // todo toast
+            alert(e.message)
           }
         })
-        setInfo(list)
-      })
-      .catch(e => {
-        if (!(e instanceof ResponseError)) return
-        console.error(e)
-        console.dir(e)
-        if (e instanceof ResponseError && e.response.status === 400) {
-          e.response
-            .json()
-            .then((x: { detail: string }) => {
-              setInfo(x.detail)
-            })
-            .catch(console.error)
-        } else {
-          // todo toast
-          alert(e.message)
-        }
-      })
-      .finally(() => {
-        document.title = document.title.replace(uniqueId, '')
-      })
-  }, [setInfo])
+        .finally(() => {
+          document.title = document.title.replace(uniqueId, '')
+        })
+    },
+    [setInfo]
+  )
 
   useEffect(() => {
-    refresh()
+    refresh(true)
   }, [refresh])
 
   if (!info)
@@ -128,7 +132,7 @@ export function TableContent() {
         className='mt-1 hover:scale-105 active:scale-90'
         onClick={() => {
           setInfo(null)
-          refresh()
+          refresh(true)
         }}
       >
         刷新

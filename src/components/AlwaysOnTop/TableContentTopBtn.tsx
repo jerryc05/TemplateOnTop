@@ -6,12 +6,12 @@ import React from 'react'
 export function ProcessTableRoTopBtn({
   win,
   refresh,
-}: Readonly<{ win: WindowInfo; refresh: () => void }>) {
+}: Readonly<{ win: WindowInfo; refresh: (clearInfo: boolean) => void }>) {
   const [requesting, setRequesting] = React.useState(false)
   return (
     <Button
       variant={win.isTop ? 'default' : 'outline'}
-      className='hover:scale-105 active:scale-100'
+      className='w-16 hover:scale-105 active:scale-100'
       onClick={() => {
         setRequesting(true)
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -23,7 +23,9 @@ export function ProcessTableRoTopBtn({
             // todo toast
             console.error
           )
-          .then(refresh)
+          .then(() => {
+            refresh(true)
+          })
           .finally(() => {
             setRequesting(false)
           })
