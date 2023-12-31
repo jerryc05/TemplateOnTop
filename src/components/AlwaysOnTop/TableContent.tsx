@@ -92,7 +92,7 @@ export function TableContent() {
           <TableRow key={win.hwnd}>
             <TableCell
               className={`${processTableCellPadding} font-medium ${
-                win.suggested && 'font-bold'
+                win.suggested ? 'font-bold' : ''
               }`}
             >
               {win.title}
