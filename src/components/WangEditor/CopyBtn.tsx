@@ -1,6 +1,6 @@
 import { Button } from '@/shadcnui/ui/button'
 import { IDomEditor } from '@wangeditor/editor'
-import { Copy } from 'lucide-react'
+import { Check, Copy, X } from 'lucide-react'
 import React from 'react'
 
 export function CopyBtn({
@@ -10,10 +10,16 @@ export function CopyBtn({
   className: React.HTMLAttributes<never>['className']
   editor: IDomEditor | null
 }>) {
-  const [icon, setIcon] = React.useState<React.ReactNode | null>(null)
+  const [status, setStatus] = React.useState<boolean | null>(null)
   return (
     <Button
-      className={`w-14 h-14 p-0 rounded-full shadow-2xl hover:scale-110 active:scale-100 ${className}`}
+      className={`w-14 h-14 p-0 rounded-full shadow-2xl hover:scale-110 active:scale-100 ${
+        status == null
+          ? ''
+          : status
+          ? 'bg-green-500 hover:bg-green-500'
+          : 'bg-red-500 hover:bg-red-500'
+      } ${className}`}
       variant='outline'
       onClick={() => {
         if (editor == null) return
@@ -22,10 +28,10 @@ export function CopyBtn({
         navigator.clipboard
           .write([new ClipboardItem({ [blob.type]: blob, [text.type]: text })])
           .then(() => {
-            setIcon(<Copy />)
+            setStatus(true)
             setTimeout(() => {
-              setIcon(null)
-            }, 1000)
+              setStatus(null)
+            }, 1500)
           })
           .catch(e => {
             // todo toast
@@ -33,7 +39,7 @@ export function CopyBtn({
           })
       }}
     >
-      {icon ?? <Copy />}
+      {status == null ? <Copy /> : status ? <Check /> : <X />}
     </Button>
   )
 }
