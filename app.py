@@ -5,7 +5,8 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, status
 from fastapi.staticfiles import StaticFiles
-from app_topmost import get_visible_windows, WindowInfo
+from pydantic import BaseModel
+from app_topmost import get_visible_windows, WindowInfo, set_hwnd_topmost
 
 #
 #
@@ -45,6 +46,16 @@ def visible_windows() -> "list[WindowInfo]":
             detail=f"不支持当前操作系统 ({res})，仅支持 Windows！",
         )
     return res
+
+
+class TopMostRequest(BaseModel):
+    hwnd: int
+    top: bool
+
+
+@api.post("/topmost")
+def topmost_windows(req: TopMostRequest):
+    set_hwnd_topmost(req.hwnd, req.top)
 
 
 with open(working_dir / "openapi.json", "w") as f:

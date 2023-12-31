@@ -15,17 +15,64 @@
 
 import * as runtime from '../runtime';
 import type {
+  HTTPValidationError,
+  TopMostRequest,
   WindowInfo,
 } from '../models/index';
 import {
+    HTTPValidationErrorFromJSON,
+    HTTPValidationErrorToJSON,
+    TopMostRequestFromJSON,
+    TopMostRequestToJSON,
     WindowInfoFromJSON,
     WindowInfoToJSON,
 } from '../models/index';
+
+export interface TopmostWindowsTopmostPostRequest {
+    topMostRequest: TopMostRequest;
+}
 
 /**
  * 
  */
 export class DefaultApi extends runtime.BaseAPI {
+
+    /**
+     * Topmost Windows
+     */
+    async topmostWindowsTopmostPostRaw(requestParameters: TopmostWindowsTopmostPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.topMostRequest === null || requestParameters.topMostRequest === undefined) {
+            throw new runtime.RequiredError('topMostRequest','Required parameter requestParameters.topMostRequest was null or undefined when calling topmostWindowsTopmostPost.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/topmost`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: TopMostRequestToJSON(requestParameters.topMostRequest),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Topmost Windows
+     */
+    async topmostWindowsTopmostPost(requestParameters: TopmostWindowsTopmostPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.topmostWindowsTopmostPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Visible Windows
