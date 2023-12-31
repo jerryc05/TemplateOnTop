@@ -48,11 +48,19 @@ def get_visible_windows() -> "list[WindowInfo]|str":
         return sys.platform
 
     def enum_windows_callback(hwnd: int, result: "list[WindowInfo]"):
-        if not win32gui.IsWindowVisible(hwnd):
+        if not win32gui.IsWindowVisible(hwnd) or not win32gui.IsWindowEnabled(hwnd):
             return
 
         title = win32gui.GetWindowText(hwnd)
         if not title:
+            return
+
+        rect = win32gui.GetWindowRect(hwnd)
+        x = rect[0]
+        y = rect[1]
+        w = rect[2] - x
+        h = rect[3] - y
+        if w <= 10 or h <= 10:
             return
 
         _tid, pid = win32process.GetWindowThreadProcessId(hwnd)

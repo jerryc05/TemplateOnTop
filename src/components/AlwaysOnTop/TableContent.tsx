@@ -35,6 +35,7 @@ export function TableContent() {
         list.forEach((window, idx) => {
           if (window.title.includes(uniqueId)) {
             list[idx].suggested = true
+            list[idx].title = window.title.replace(uniqueId, '')
             list.unshift(list.splice(idx, 1)[0])
           }
         })
@@ -61,9 +62,9 @@ export function TableContent() {
       })
   }, [setInfo])
 
-  // useEffect(() => {
-  //   refresh()
-  // }, [refresh])
+  useEffect(() => {
+    refresh()
+  }, [refresh])
 
   if (!info)
     return (
