@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from fastapi.staticfiles import StaticFiles
 from app_topmost import get_visible_windows, WindowInfo
 
@@ -38,7 +38,13 @@ else:
 
 @api.post("/windows")
 def visible_windows() -> "list[WindowInfo]":
-    return get_visible_windows()
+    res = get_visible_windows()
+    if isinstance(res, str):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"不支持当前操作系统 ({res})，仅支持 Windows！",
+        )
+    return res
 
 
 with open(working_dir / "openapi.json", "w") as f:
@@ -56,7 +62,7 @@ if __name__ == "__main__":
     import uvicorn
     import netifaces
 
-    port = int(os.getenv("PORT", 8080))
+    port = int(os.getenv("PORT", 18080))
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.settimeout(0.2)
@@ -64,5 +70,8 @@ if __name__ == "__main__":
             raise RuntimeError(f"Port {port} is already in use!")
 
     uvicorn.run(  # pyright: ignore[reportUnknownMemberType]
-        f"{Path(__file__).stem}:{f'{app=}'.split('=')[0]}", log_level="info"
+        f"{Path(__file__).stem}:{f'{app=}'.split('=')[0]}",
+        port=port,
+        reload="--reload" in sys.argv[1:],
+        log_level="info",
     )

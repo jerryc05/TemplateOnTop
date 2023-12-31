@@ -1,11 +1,11 @@
-from typing import Optional, cast
-import os
+import sys
+from typing import cast
 
 import psutil
 from pydantic import BaseModel
 
 
-if os.name == "nt":
+if sys.platform == "win32":
     import win32con
     import win32gui
     import win32process
@@ -14,13 +14,13 @@ if os.name == "nt":
 class WindowInfo(BaseModel):
     hwnd: int
     title: str
-    is_top: "Optional[int]"
-    name_of_pid: "Optional[str]" = None
-    exe_of_pid: "Optional[str]" = None
+    is_top: "int|None"
+    name_of_pid: "str|None" = None
+    exe_of_pid: "str|None" = None
 
 
 def set_hwnd_topmost(hwnd: int, is_top: bool):
-    if os.name != "nt":
+    if sys.platform != "win32":
         return
     win32gui.SetWindowPos(
         hwnd,
@@ -33,8 +33,8 @@ def set_hwnd_topmost(hwnd: int, is_top: bool):
     )
 
 
-def get_hwnd_topmost(hwnd: int) -> "Optional[int]":
-    if os.name != "nt":
+def get_hwnd_topmost(hwnd: int) -> "int|None":
+    if sys.platform != "win32":
         return None
     return (
         cast(int, win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE))
@@ -42,11 +42,9 @@ def get_hwnd_topmost(hwnd: int) -> "Optional[int]":
     )
 
 
-def get_visible_windows() -> "list[WindowInfo]":
-    if os.name != "nt":
-        return [
-            WindowInfo(hwnd=0, title=f"不支持{os.name}", is_top=get_hwnd_topmost(0))
-        ]
+def get_visible_windows() -> "list[WindowInfo]|str":
+    if sys.platform != "win32":
+        return sys.platform
 
     def enum_windows_callback(hwnd: int, result: "list[WindowInfo]"):
         if not win32gui.IsWindowVisible(hwnd):

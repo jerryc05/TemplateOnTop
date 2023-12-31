@@ -1,4 +1,8 @@
-import { WindowInfo } from '@/_generated/typescript-fetch'
+import {
+  DefaultApi,
+  ResponseError,
+  WindowInfo,
+} from '@/_generated/typescript-fetch'
 import { Button } from '@/shadcnui/ui/button'
 import {
   Table,
@@ -10,14 +14,45 @@ import {
   TableHeader,
   TableRow,
 } from '@/shadcnui/ui/table'
-import React from 'react'
+import { Loader2 } from 'lucide-react'
+import React, { useEffect } from 'react'
 
 export function TableContent({
   setTop,
 }: {
   setTop: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-  const [info, setInfo] = React.useState<WindowInfo[] | null>(null)
+  const [info, setInfo] = React.useState<WindowInfo[] | string | null>(null)
+
+  useEffect(() => {
+    new DefaultApi()
+      .visibleWindowsWindowsPost()
+      .then(setInfo)
+      .catch(e => {
+        console.error(e)
+        console.dir(e)
+        if (e instanceof ResponseError && e.response.status === 400) {
+          e.response
+            .json()
+            .then((x: { detail: string }) => {
+              setInfo(x.detail)
+            })
+            .catch(console.error)
+        } else {
+          // todo toast
+        }
+      })
+  }, [setInfo])
+
+  if (!info)
+    return (
+      <div className='mt-4 flex justify-center'>
+        <Loader2 className='animate-spin' size='40' />
+      </div>
+    )
+
+  if (typeof info === 'string') return <div>{info}</div>
+
   return (
     <Table>
       <TableHeader>
@@ -29,7 +64,7 @@ export function TableContent({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {info?.map(x => (
+        {info.map(x => (
           <TableRow key={x.hwnd}>
             <TableCell className='font-medium'>{x.title}</TableCell>
             <TableCell>{x.nameOfPid}</TableCell>
