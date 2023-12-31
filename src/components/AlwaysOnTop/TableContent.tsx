@@ -28,7 +28,7 @@ export function TableContent() {
       const uniqueId = ` - ${Date.now()}`
       document.title += uniqueId
       if (clearInfo) setInfo(null)
-      new Promise((resolve, _reject) => {
+      return new Promise((resolve, _reject) => {
         setTimeout(resolve, 500)
       })
         .then(() => new DefaultApi().visibleWindowsWindowsPost())
@@ -67,7 +67,7 @@ export function TableContent() {
   )
 
   useEffect(() => {
-    refresh(true)
+    refresh(true).catch(console.error)
   }, [refresh])
 
   if (!info)
@@ -132,7 +132,7 @@ export function TableContent() {
         className='mt-1 hover:scale-105 active:scale-90'
         onClick={() => {
           setInfo(null)
-          refresh(true)
+          refresh(true).catch(console.error)
         }}
       >
         刷新

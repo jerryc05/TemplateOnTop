@@ -6,7 +6,10 @@ import React from 'react'
 export function ProcessTableRoTopBtn({
   win,
   refresh,
-}: Readonly<{ win: WindowInfo; refresh: (clearInfo: boolean) => void }>) {
+}: Readonly<{
+  win: WindowInfo
+  refresh: (clearInfo: boolean) => Promise<void>
+}>) {
   const [requesting, setRequesting] = React.useState(false)
   return (
     <Button
@@ -23,9 +26,7 @@ export function ProcessTableRoTopBtn({
             // todo toast
             console.error
           )
-          .then(() => {
-            refresh(true)
-          })
+          .then(() => refresh(true))
           .finally(() => {
             setRequesting(false)
           })
