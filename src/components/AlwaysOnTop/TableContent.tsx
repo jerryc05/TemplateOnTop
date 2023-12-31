@@ -33,6 +33,7 @@ export function TableContent() {
       })
         .then(() => new DefaultApi().visibleWindowsWindowsPost())
         .then(list_ => {
+          document.title = document.title.replace(uniqueId, '')
           const list: (WindowInfo & { suggested?: boolean })[] = list_
           list.forEach((window, idx) => {
             if (window.title.includes(uniqueId)) {
