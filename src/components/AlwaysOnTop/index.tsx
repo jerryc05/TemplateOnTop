@@ -18,9 +18,7 @@ export function AlwaysOnTop({
 }: Readonly<{
   className: React.HTMLAttributes<never>['className']
 }>) {
-  const [top, setTop] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
-
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
@@ -31,7 +29,9 @@ export function AlwaysOnTop({
           {dialogOpen ? (
             <Loader2 className='animate-spin' />
           ) : top ? (
-            <Pin className='rotate-45' />
+            <Pin
+            // className='rotate-45'
+            />
           ) : (
             <PinOff />
           )}
@@ -43,7 +43,7 @@ export function AlwaysOnTop({
           <DialogTitle>窗口置顶</DialogTitle>
           <DialogDescription>选择想要置顶的窗口</DialogDescription>
         </DialogHeader>
-        <TableContent setTop={setTop}/>
+        <TableContent />
         {/* <DialogFooter className='sm:justify-start'>
           <DialogClose asChild>
             <Button type='button' variant='secondary'>

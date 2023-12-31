@@ -20,6 +20,7 @@ class WindowInfo(BaseModel):
 
 
 def set_hwnd_topmost(hwnd: int, is_top: bool):
+    print(f'Setting hwnd={hwnd} to {"topmost" if is_top else "not topmost"}')
     if sys.platform != "win32":
         return
     win32gui.SetWindowPos(
@@ -44,6 +45,22 @@ def get_hwnd_topmost(hwnd: int) -> "int|None":
 
 def get_visible_windows() -> "list[WindowInfo]|str":
     if sys.platform != "win32":
+        return [
+            WindowInfo(
+                hwnd=1,
+                title="title",
+                is_top=0,
+                name_of_pid="name_of_pid",
+                exe_of_pid="exe_of_pid",
+            ),
+            WindowInfo(
+                hwnd=2,
+                title="title2",
+                is_top=8,
+                name_of_pid="name_of_pid2",
+                exe_of_pid="exe_of_pid2",
+            ),
+        ]
         return sys.platform
 
     def enum_windows_callback(hwnd: int, result: "list[WindowInfo]"):

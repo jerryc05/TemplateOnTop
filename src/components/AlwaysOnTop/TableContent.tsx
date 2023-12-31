@@ -15,20 +15,19 @@ import {
   TableRow,
 } from '@/shadcnui/ui/table'
 import { Loader2 } from 'lucide-react'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
+import { ProcessTableRoTopBtn } from './ProcessTableRowTopBtn'
 
-export function TableContent({
-  setTop,
-}: {
-  setTop: React.Dispatch<React.SetStateAction<boolean>>
-}) {
+export function TableContent() {
   const [info, setInfo] = React.useState<WindowInfo[] | string | null>(null)
 
-  useEffect(() => {
+  const refresh = useCallback(() => {
+    console.log('refresh!')
     new DefaultApi()
       .visibleWindowsWindowsPost()
       .then(setInfo)
       .catch(e => {
+        if (!(e instanceof ResponseError)) return
         console.error(e)
         console.dir(e)
         if (e instanceof ResponseError && e.response.status === 400) {
@@ -40,9 +39,14 @@ export function TableContent({
             .catch(console.error)
         } else {
           // todo toast
+          alert(e.message)
         }
       })
   }, [setInfo])
+
+  useEffect(() => {
+    refresh()
+  }, [refresh])
 
   if (!info)
     return (
@@ -53,29 +57,34 @@ export function TableContent({
 
   if (typeof info === 'string') return <div>{info}</div>
 
+  const processTableCellPadding = 'p-2 py-1'
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>标题</TableHead>
-          <TableHead>进程名</TableHead>
-          <TableHead>进程路径</TableHead>
-          <TableHead className='w-16 text-center'>置顶</TableHead>
+          <TableHead className={processTableCellPadding}>标题</TableHead>
+          <TableHead className={processTableCellPadding}>进程名</TableHead>
+          <TableHead className={processTableCellPadding}>进程路径</TableHead>
+          <TableHead className={`${processTableCellPadding} w-16 text-center`}>
+            置顶
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {info.map(x => (
-          <TableRow key={x.hwnd}>
-            <TableCell className='font-medium'>{x.title}</TableCell>
-            <TableCell>{x.nameOfPid}</TableCell>
-            <TableCell>{x.exeOfPid}</TableCell>
-            <TableCell>
-              <Button
-                variant={x.isTop ? 'default' : 'outline'}
-                className='hover:scale-105 active:scale-100'
-              >
-                {x.isTop ? '已' : '未'}置顶
-              </Button>
+        {info.map(window => (
+          <TableRow key={window.hwnd}>
+            <TableCell className={`${processTableCellPadding} font-medium`}>
+              {window.title}
+            </TableCell>
+            <TableCell className={processTableCellPadding}>
+              {window.nameOfPid}
+            </TableCell>
+            <TableCell className={processTableCellPadding}>
+              {window.exeOfPid}
+            </TableCell>
+            <TableCell className={processTableCellPadding}>
+              <ProcessTableRoTopBtn window={window} refresh={refresh}/>
             </TableCell>
           </TableRow>
         ))}
@@ -86,6 +95,16 @@ export function TableContent({
           <TableCell className='text-right'>$2,500.00</TableCell>
         </TableRow>
       </TableFooter> */}
+      <Button
+        variant='outline'
+        className='mt-2'
+        onClick={() => {
+          setInfo(null)
+          refresh()
+        }}
+      >
+        刷新
+      </Button>
       {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
     </Table>
   )
