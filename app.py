@@ -31,8 +31,8 @@ frontend_dist = working_dir / "dist"
 class CachedStaticFiles(StaticFiles):
     def file_response(self, *args: Any, **kwargs: Any):
         resp = super().file_response(*args, **kwargs)
-        if isinstance(resp, FileResponse):
-            if (frontend_dist / "assets") in Path(resp.path).parents:
+        if self.directory is not None and isinstance(resp, FileResponse):
+            if (Path(self.directory) / "assets") in Path(resp.path).parents:
                 if resp.headers.get("Cache-Control"):
                     print(resp.headers.get("Cache-Control"))
                 resp.headers["Cache-Control"] = (
