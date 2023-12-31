@@ -26,7 +26,7 @@ export function ProcessTableRoTopBtn({
             // todo toast
             console.error
           )
-          .then(() => refresh(true))
+          .then(() => refresh(false))
           .finally(() => {
             setRequesting(false)
           })
