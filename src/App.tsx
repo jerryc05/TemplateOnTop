@@ -3,7 +3,7 @@ import { MyWangEditor as Editor } from './components/WangEditor'
 
 export const App = () => (
   <>
-    <AlwaysOnTop className='fixed right-10 bottom-10 z-10' />
+    <AlwaysOnTop className='fixed right-5 bottom-[2rem] z-10' />
     <div
       style={{
         height: '100%',

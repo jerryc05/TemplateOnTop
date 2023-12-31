@@ -9,4 +9,4 @@ export const FONT_FANGSONG = 'FangSong, 仿宋'
 export const FONT_KAITI = 'KaiTi, 楷体'
 
 export const bottomRightBtnClass =
-  'w-14 h-14 p-0 border-transparent rounded-full shadow-[0_0_10px_0_rgba(0,0,0,.3)] hover:scale-110 active:scale-100'
+  'w-14 h-14 p-0 border-transparent rounded-full disabled:bg-white shadow-[0_0_10px_0_rgba(0,0,0,.3)] hover:scale-110 active:scale-100'

@@ -15,34 +15,7 @@ import {
 } from '@/utils'
 import { CopyBtn } from './CopyBtn'
 import { SaveBtn } from './SaveBtn'
-
-const fontFamilyList = [
-  { name: '微软雅黑', value: FONT_YAHEI },
-  { name: 'Meiryo UI', value: `Meiryo UI, ${FONT_WEB_JP_FALLBACK}` },
-  { name: 'Meiryo', value: `Meiryo, ${FONT_WEB_JP_FALLBACK}` },
-  { name: '黑体', value: FONT_HEITI },
-  { name: '仿宋', value: FONT_FANGSONG },
-  { name: '楷体', value: FONT_KAITI },
-  '标楷体',
-  '华文仿宋',
-  '华文楷体',
-  { name: '宋体', value: FONT_SONGTI },
-  'Arial',
-  'Tahoma',
-  'Verdana',
-  'Times New Roman',
-  'Courier New',
-].map(x => {
-  if (typeof x === 'string')
-    return {
-      name: x,
-      value: `${x}, ${FONT_WEB_OUTLOOK_FALLBACK}`,
-    }
-  return {
-    name: x.name,
-    value: `${x.value}, ${FONT_WEB_OUTLOOK_FALLBACK}`,
-  }
-})
+import { FileMgr } from './FileMgr'
 
 export function MyWangEditor(
   props: Readonly<React.HTMLAttributes<HTMLDivElement>>
@@ -70,14 +43,15 @@ export function MyWangEditor(
   return (
     <>
       <CopyBtn
-        className='fixed right-10 bottom-[10.5rem] z-10'
+        className='fixed right-5 bottom-[14rem] z-10'
         editor={editor}
       />
       <SaveBtn
-        className='fixed right-10 bottom-[6.5rem] z-10'
+        className='fixed right-5 bottom-[10rem] z-10'
         isChanged={html !== originalContent}
         originalContent={originalContent}
       />
+      <FileMgr className='fixed right-5 bottom-[6rem] z-10' />
       <div
         {...{
           ...props,
@@ -110,3 +84,31 @@ export function MyWangEditor(
     </>
   )
 }
+
+const fontFamilyList = [
+  { name: '微软雅黑', value: FONT_YAHEI },
+  { name: 'Meiryo UI', value: `Meiryo UI, ${FONT_WEB_JP_FALLBACK}` },
+  { name: 'Meiryo', value: `Meiryo, ${FONT_WEB_JP_FALLBACK}` },
+  { name: '黑体', value: FONT_HEITI },
+  { name: '仿宋', value: FONT_FANGSONG },
+  { name: '楷体', value: FONT_KAITI },
+  '标楷体',
+  '华文仿宋',
+  '华文楷体',
+  { name: '宋体', value: FONT_SONGTI },
+  'Arial',
+  'Tahoma',
+  'Verdana',
+  'Times New Roman',
+  'Courier New',
+].map(x => {
+  if (typeof x === 'string')
+    return {
+      name: x,
+      value: `${x}, ${FONT_WEB_OUTLOOK_FALLBACK}`,
+    }
+  return {
+    name: x.name,
+    value: `${x.value}, ${FONT_WEB_OUTLOOK_FALLBACK}`,
+  }
+})
