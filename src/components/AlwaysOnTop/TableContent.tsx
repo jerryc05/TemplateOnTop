@@ -19,13 +19,26 @@ import React, { useCallback, useEffect } from 'react'
 import { ProcessTableRoTopBtn } from './ProcessTableRowTopBtn'
 
 export function TableContent() {
-  const [info, setInfo] = React.useState<WindowInfo[] | string | null>(null)
+  const [info, setInfo] = React.useState<
+    (WindowInfo & { suggested?: boolean })[] | string | null
+  >(null)
 
   const refresh = useCallback(() => {
     console.log('refresh!')
+    const uniqueId = ` - ${Date.now()}`
+    document.title += uniqueId
     new DefaultApi()
       .visibleWindowsWindowsPost()
-      .then(setInfo)
+      .then(list_ => {
+        const list: (WindowInfo & { suggested?: boolean })[] = list_
+        list.forEach((window, idx) => {
+          if (window.title.includes(uniqueId)) {
+            list[idx].suggested = true
+            list.unshift(list.splice(idx, 1)[0])
+          }
+        })
+        setInfo(list)
+      })
       .catch(e => {
         if (!(e instanceof ResponseError)) return
         console.error(e)
@@ -41,6 +54,9 @@ export function TableContent() {
           // todo toast
           alert(e.message)
         }
+      })
+      .finally(() => {
+        document.title = document.title.replace(uniqueId, '')
       })
   }, [setInfo])
 
@@ -72,19 +88,23 @@ export function TableContent() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {info.map(window => (
-          <TableRow key={window.hwnd}>
-            <TableCell className={`${processTableCellPadding} font-medium`}>
-              {window.title}
+        {info.map(win => (
+          <TableRow key={win.hwnd}>
+            <TableCell
+              className={`${processTableCellPadding} font-medium ${
+                win.suggested && 'font-bold'
+              }`}
+            >
+              {win.title}
             </TableCell>
             <TableCell className={processTableCellPadding}>
-              {window.nameOfPid}
+              {win.nameOfPid}
             </TableCell>
             <TableCell className={processTableCellPadding}>
-              {window.exeOfPid}
+              {win.exeOfPid}
             </TableCell>
             <TableCell className={processTableCellPadding}>
-              <ProcessTableRoTopBtn window={window} refresh={refresh}/>
+              <ProcessTableRoTopBtn win={win} refresh={refresh} />
             </TableCell>
           </TableRow>
         ))}

@@ -4,20 +4,20 @@ import { Loader2 } from 'lucide-react'
 import React from 'react'
 
 export function ProcessTableRoTopBtn({
-  window,
+  win,
   refresh,
-}: Readonly<{ window: WindowInfo; refresh: () => void }>) {
+}: Readonly<{ win: WindowInfo; refresh: () => void }>) {
   const [requesting, setRequesting] = React.useState(false)
   return (
     <Button
-      variant={window.isTop ? 'default' : 'outline'}
+      variant={win.isTop ? 'default' : 'outline'}
       className='hover:scale-105 active:scale-100'
       onClick={() => {
         setRequesting(true)
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         new DefaultApi()
           .topmostWindowsTopmostPost({
-            topMostRequest: { hwnd: window.hwnd, top: !window.isTop },
+            topMostRequest: { hwnd: win.hwnd, top: !win.isTop },
           })
           .catch(
             // todo toast
@@ -32,7 +32,7 @@ export function ProcessTableRoTopBtn({
       {requesting ? (
         <Loader2 className='animate-spin'></Loader2>
       ) : (
-        (window.isTop ? '已' : '未') + '置顶'
+        (win.isTop ? '已' : '未') + '置顶'
       )}
     </Button>
   )
