@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from '@/shadcnui/ui/dialog'
 import { TableContent } from './TableContent'
+import { bottomRightBtnClass } from '@/utils'
 
 export function AlwaysOnTop({
   className,
@@ -23,7 +24,7 @@ export function AlwaysOnTop({
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button
-          className={`w-14 h-14 p-0 rounded-full shadow-2xl hover:scale-110 active:scale-100 ${className}`}
+          className={`${bottomRightBtnClass} ${className}`}
           variant={top ? 'outline' : 'default'}
         >
           {dialogOpen ? (

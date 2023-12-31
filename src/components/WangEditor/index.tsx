@@ -14,6 +14,7 @@ import {
   FONT_YAHEI,
 } from '@/utils'
 import { CopyBtn } from './CopyBtn'
+import { SaveBtn } from './SaveBtn'
 
 const fontFamilyList = [
   { name: '微软雅黑', value: FONT_YAHEI },
@@ -47,6 +48,8 @@ export function MyWangEditor(
   props: Readonly<React.HTMLAttributes<HTMLDivElement>>
 ) {
   const [editor, setEditor] = useState<IDomEditor | null>(null)
+  const [html, setHtml] = useState<string>('')
+  const [originalContent, setOriginalContent] = useState<string>('<p><br></p>')
 
   const toolbarConfig: Partial<IToolbarConfig> = {}
   const editorConfig: Partial<IEditorConfig> = {
@@ -66,7 +69,15 @@ export function MyWangEditor(
 
   return (
     <>
-      <CopyBtn className='fixed right-10 bottom-28 z-10' editor={editor} />
+      <CopyBtn
+        className='fixed right-10 bottom-[10.5rem] z-10'
+        editor={editor}
+      />
+      <SaveBtn
+        className='fixed right-10 bottom-[6.5rem] z-10'
+        isChanged={html !== originalContent}
+        originalContent={originalContent}
+      />
       <div
         {...{
           ...props,
@@ -87,11 +98,11 @@ export function MyWangEditor(
         />
         <Editor
           defaultConfig={editorConfig}
-          // value={html}
+          value={html}
           onCreated={setEditor}
-          // onChange={editor => {
-          //   setHtml(editor.getHtml())
-          // }}
+          onChange={editor => {
+            setHtml(editor.getHtml())
+          }}
           mode='default'
           style={{ flexGrow: 1 }}
         />
