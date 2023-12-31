@@ -52,6 +52,8 @@ def get_visible_windows() -> "list[WindowInfo]|str":
             return
 
         title = win32gui.GetWindowText(hwnd)
+        if not title:
+            return
 
         _tid, pid = win32process.GetWindowThreadProcessId(hwnd)
         try:

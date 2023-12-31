@@ -35,10 +35,9 @@ export function AlwaysOnTop({
           ) : (
             <PinOff />
           )}
-          {/* {'已' + (top ? '' : '取消') + '置顶'} */}
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='max-h-[85vh] max-w-[95vw] flex flex-col overflow-auto'>
         <DialogHeader>
           <DialogTitle>窗口置顶</DialogTitle>
           <DialogDescription>选择想要置顶的窗口</DialogDescription>
