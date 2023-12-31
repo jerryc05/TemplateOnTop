@@ -2,8 +2,10 @@
 
 import json
 from pathlib import Path
+from typing import Any
 
 from fastapi import FastAPI, HTTPException, status
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from app_topmost import get_visible_windows, WindowInfo, set_hwnd_topmost
@@ -24,10 +26,26 @@ app.mount(api.servers[0]["url"], api)
 
 working_dir = Path(__file__).parent.absolute()
 frontend_dist = working_dir / "dist"
+
+
+class CachedStaticFiles(StaticFiles):
+    def file_response(self, *args: Any, **kwargs: Any):
+        resp = super().file_response(*args, **kwargs)
+        if isinstance(resp, FileResponse):
+            if (frontend_dist / "assets") in Path(resp.path).parents:
+                if resp.headers.get("Cache-Control"):
+                    print(resp.headers.get("Cache-Control"))
+                resp.headers["Cache-Control"] = (
+                    "public, max-age=31536000, immutable, "
+                    + resp.headers.get("Cache-Control", "")
+                )
+        return resp
+
+
 if frontend_dist.is_dir():
     app.mount(
         "/",
-        StaticFiles(directory=frontend_dist, html=True),
+        CachedStaticFiles(directory=frontend_dist, html=True),
     )
 else:
     raise RuntimeError(f"Frontend dist directory {frontend_dist} does not exist!")
