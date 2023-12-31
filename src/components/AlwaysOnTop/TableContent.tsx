@@ -16,7 +16,8 @@ import {
 } from '@/shadcnui/ui/table'
 import { Loader2 } from 'lucide-react'
 import React, { useCallback, useEffect } from 'react'
-import { ProcessTableRoTopBtn } from './ProcessTableRowTopBtn'
+import { ProcessTableRoTopBtn } from './TableContentTopBtn'
+import { setTimeout } from 'timers'
 
 export function TableContent() {
   const [info, setInfo] = React.useState<
@@ -24,11 +25,12 @@ export function TableContent() {
   >(null)
 
   const refresh = useCallback(() => {
-    console.log('refresh!')
     const uniqueId = ` - ${Date.now()}`
     document.title += uniqueId
-    new DefaultApi()
-      .visibleWindowsWindowsPost()
+    new Promise((resolve, reject) => {
+      setTimeout(resolve, 500)
+    })
+      .then(() => new DefaultApi().visibleWindowsWindowsPost())
       .then(list_ => {
         const list: (WindowInfo & { suggested?: boolean })[] = list_
         list.forEach((window, idx) => {
@@ -76,48 +78,53 @@ export function TableContent() {
   const processTableCellPadding = 'p-2 py-1'
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className={processTableCellPadding}>标题</TableHead>
-          <TableHead className={processTableCellPadding}>进程名</TableHead>
-          <TableHead className={processTableCellPadding}>进程路径</TableHead>
-          <TableHead className={`${processTableCellPadding} w-16 text-center`}>
-            置顶
-          </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {info.map(win => (
-          <TableRow key={win.hwnd}>
-            <TableCell
-              className={`${processTableCellPadding} font-medium ${
-                win.suggested ? 'font-bold' : ''
-              }`}
+    <>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className={processTableCellPadding}>标题</TableHead>
+            <TableHead className={processTableCellPadding}>进程名</TableHead>
+            <TableHead className={processTableCellPadding}>进程路径</TableHead>
+            <TableHead
+              className={`${processTableCellPadding} w-16 text-center`}
             >
-              {win.title}
-            </TableCell>
-            <TableCell className={processTableCellPadding}>
-              {win.nameOfPid}
-            </TableCell>
-            <TableCell className={processTableCellPadding}>
-              {win.exeOfPid}
-            </TableCell>
-            <TableCell className={processTableCellPadding}>
-              <ProcessTableRoTopBtn win={win} refresh={refresh} />
-            </TableCell>
+              置顶
+            </TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-      {/* <TableFooter>
+        </TableHeader>
+        <TableBody>
+          {info.map(win => (
+            <TableRow key={win.hwnd}>
+              <TableCell
+                className={`${processTableCellPadding} font-medium ${
+                  win.suggested ? 'font-bold' : ''
+                }`}
+              >
+                {win.title}
+              </TableCell>
+              <TableCell className={processTableCellPadding}>
+                {win.nameOfPid}
+              </TableCell>
+              <TableCell className={processTableCellPadding}>
+                {win.exeOfPid}
+              </TableCell>
+              <TableCell className={processTableCellPadding}>
+                <ProcessTableRoTopBtn win={win} refresh={refresh} />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        {/* <TableFooter>
         <TableRow>
           <TableCell colSpan={3}>Total</TableCell>
           <TableCell className='text-right'>$2,500.00</TableCell>
         </TableRow>
       </TableFooter> */}
+        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+      </Table>
       <Button
         variant='outline'
-        className='mt-2'
+        className='mt-1 hover:scale-105 active:scale-90'
         onClick={() => {
           setInfo(null)
           refresh()
@@ -125,7 +132,6 @@ export function TableContent() {
       >
         刷新
       </Button>
-      {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-    </Table>
+    </>
   )
 }
