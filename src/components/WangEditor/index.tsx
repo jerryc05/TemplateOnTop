@@ -47,7 +47,6 @@ export function MyWangEditor(
   props: Readonly<React.HTMLAttributes<HTMLDivElement>>
 ) {
   const [editor, setEditor] = useState<IDomEditor | null>(null)
-  const [html, setHtml] = useState('')
 
   const toolbarConfig: Partial<IToolbarConfig> = {}
   const editorConfig: Partial<IEditorConfig> = {
@@ -67,9 +66,7 @@ export function MyWangEditor(
 
   return (
     <>
-      <CopyBtn className='fixed right-10 bottom-28 z-10'
-      html={html}
-      />
+      <CopyBtn className='fixed right-10 bottom-28 z-10' editor={editor} />
       <div
         {...{
           ...props,
@@ -90,11 +87,11 @@ export function MyWangEditor(
         />
         <Editor
           defaultConfig={editorConfig}
-          value={html}
+          // value={html}
           onCreated={setEditor}
-          onChange={editor => {
-            setHtml(editor.getHtml())
-          }}
+          // onChange={editor => {
+          //   setHtml(editor.getHtml())
+          // }}
           mode='default'
           style={{ flexGrow: 1 }}
         />
