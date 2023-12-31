@@ -17,6 +17,7 @@ import {
 import { Loader2 } from 'lucide-react'
 import React, { useCallback, useEffect } from 'react'
 import { ProcessTableRoTopBtn } from './TableContentTopBtn'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/shadcnui/ui/tooltip'
 export function TableContent() {
   const [info, setInfo] = React.useState<
     (WindowInfo & { suggested?: boolean })[] | string | null
@@ -379,53 +380,50 @@ export function TableContent() {
 
   return (
     <>
-      <div className='overflow-auto'>
-        {/* <div className='h-[50rem] bg-red-500'>hi</div> */}
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className={processTableCellPadding}>标题</TableHead>
-              <TableHead className={`${processTableCellPadding} w-2/12`}>
-                进程名
-              </TableHead>
-              <TableHead
-                className={`${processTableCellPadding} w-16 text-center`}
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className={processTableCellPadding}>标题</TableHead>
+            <TableHead className={`${processTableCellPadding} w-2/12`}>
+              进程名
+            </TableHead>
+            <TableHead
+              className={`${processTableCellPadding} w-16 text-center`}
+            >
+              置顶
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody className='h-20'>
+          {info.map(win => (
+            <TableRow key={win.hwnd}>
+              <TableCell
+                className={`${processTableCellPadding} font-medium ${
+                  win.suggested ? 'font-bold' : ''
+                }`}
               >
-                置顶
-              </TableHead>
+                {win.title}
+              </TableCell>
+              <TableCell className={processTableCellPadding}>
+                <Tooltip>
+                  <TooltipTrigger>{win.nameOfPid}</TooltipTrigger>
+                  <TooltipContent>{win.exeOfPid}</TooltipContent>
+                </Tooltip>
+              </TableCell>
+              <TableCell className={processTableCellPadding}>
+                <ProcessTableRoTopBtn win={win} refresh={refresh} />
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody className='h-20'>
-            {info.map(win => (
-              <TableRow key={win.hwnd}>
-                <TableCell
-                  className={`${processTableCellPadding} font-medium ${
-                    win.suggested ? 'font-bold' : ''
-                  }`}
-                >
-                  {win.title}
-                </TableCell>
-                <TableCell className={processTableCellPadding}>
-                  {win.nameOfPid}
-                </TableCell>
-                {/* <TableCell className={processTableCellPadding}>
-                      {win.exeOfPid}  todo tooltip
-                    </TableCell> */}
-                <TableCell className={processTableCellPadding}>
-                  <ProcessTableRoTopBtn win={win} refresh={refresh} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-          {/* <TableFooter>
+          ))}
+        </TableBody>
+        {/* <TableFooter>
                 <TableRow>
                   <TableCell colSpan={3}>Total</TableCell>
                   <TableCell className='text-right'>$2,500.00</TableCell>
                 </TableRow>
               </TableFooter> */}
-          {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-        </Table>
-      </div>
+        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+      </Table>
       <Button
         variant='outline'
         className='mt-1 hover:scale-105 active:scale-90'

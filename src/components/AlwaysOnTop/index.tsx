@@ -37,7 +37,7 @@ export function AlwaysOnTop({
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className='max-h-[85vh] max-w-[95vw] flex flex-col overflow-auto'>
+      <DialogContent className='max-h-[85vh] max-w-[95vw] flex flex-col'>
         <DialogHeader>
           <DialogTitle>窗口置顶</DialogTitle>
           <DialogDescription>选择想要置顶的窗口</DialogDescription>
