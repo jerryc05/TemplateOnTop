@@ -99,7 +99,7 @@ export const FileMgr = React.memo(
           </DialogHeader>
 
           <Input
-            placeholder='在这里搜索标题……'
+            placeholder='在这里搜索……'
             value={searchText}
             onChange={e => {
               setSearchText(e.target.value)
