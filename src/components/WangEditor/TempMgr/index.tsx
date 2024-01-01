@@ -57,7 +57,10 @@ export const FileMgr = React.memo(
       setAllTemps(null)
       return new DefaultApi()
         .getAllTemplatesTemplatesGet()
-        .then(setAllTemps)
+        .then(temps => {
+          temps.sort((a, b) => b.lastModified - a.lastModified)
+          setAllTemps(temps)
+        })
         .catch(console.error)
     }, [setAllTemps])
 
