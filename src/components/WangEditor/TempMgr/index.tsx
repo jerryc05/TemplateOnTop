@@ -137,7 +137,7 @@ export const FileMgr = React.memo(
             </div>
           )}
           <div className='flex gap-x-3'>
-            <NewTempPopover />
+            <NewTempPopover refresh={refresh} />
             <Button
               variant='outline'
               className={bottomBtnClass}
