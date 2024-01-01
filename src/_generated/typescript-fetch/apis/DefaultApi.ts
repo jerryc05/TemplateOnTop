@@ -16,17 +16,47 @@
 import * as runtime from '../runtime';
 import type {
   HTTPValidationError,
+  Template,
+  TemplateNoHtml,
+  TemplateOnlyTitleHtml,
   TopMostRequest,
   WindowInfo,
 } from '../models/index';
 import {
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
+    TemplateFromJSON,
+    TemplateToJSON,
+    TemplateNoHtmlFromJSON,
+    TemplateNoHtmlToJSON,
+    TemplateOnlyTitleHtmlFromJSON,
+    TemplateOnlyTitleHtmlToJSON,
     TopMostRequestFromJSON,
     TopMostRequestToJSON,
     WindowInfoFromJSON,
     WindowInfoToJSON,
 } from '../models/index';
+
+export interface CreateTemplateTemplatesPostRequest {
+    template: Template;
+}
+
+export interface DeleteTemplateTemplatesIdDeleteRequest {
+    id: number;
+}
+
+export interface GetTemplateByIdTemplatesIdGetRequest {
+    id: number;
+}
+
+export interface GetTemplateByTitleTemplatesTitleGetRequest {
+    title: string;
+}
+
+export interface PatchTemplateTemplatesIdPatchRequest {
+    id: number;
+    templateOnlyTitleHtml: TemplateOnlyTitleHtml;
+}
 
 export interface TopmostWindowsTopmostPostRequest {
     topMostRequest: TopMostRequest;
@@ -36,6 +66,212 @@ export interface TopmostWindowsTopmostPostRequest {
  * 
  */
 export class DefaultApi extends runtime.BaseAPI {
+
+    /**
+     * Create Template
+     */
+    async createTemplateTemplatesPostRaw(requestParameters: CreateTemplateTemplatesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.template === null || requestParameters.template === undefined) {
+            throw new runtime.RequiredError('template','Required parameter requestParameters.template was null or undefined when calling createTemplateTemplatesPost.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/templates`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: TemplateToJSON(requestParameters.template),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Create Template
+     */
+    async createTemplateTemplatesPost(requestParameters: CreateTemplateTemplatesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.createTemplateTemplatesPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Delete Template
+     */
+    async deleteTemplateTemplatesIdDeleteRaw(requestParameters: DeleteTemplateTemplatesIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteTemplateTemplatesIdDelete.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/templates/{id_}`.replace(`{${"id_"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Delete Template
+     */
+    async deleteTemplateTemplatesIdDelete(requestParameters: DeleteTemplateTemplatesIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.deleteTemplateTemplatesIdDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get All Templates
+     */
+    async getAllTemplatesTemplatesGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TemplateNoHtml>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/templates`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TemplateNoHtmlFromJSON));
+    }
+
+    /**
+     * Get All Templates
+     */
+    async getAllTemplatesTemplatesGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<TemplateNoHtml>> {
+        const response = await this.getAllTemplatesTemplatesGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get Template By Id
+     */
+    async getTemplateByIdTemplatesIdGetRaw(requestParameters: GetTemplateByIdTemplatesIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getTemplateByIdTemplatesIdGet.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/templates/{id_}`.replace(`{${"id_"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Get Template By Id
+     */
+    async getTemplateByIdTemplatesIdGet(requestParameters: GetTemplateByIdTemplatesIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.getTemplateByIdTemplatesIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get Template By Title
+     */
+    async getTemplateByTitleTemplatesTitleGetRaw(requestParameters: GetTemplateByTitleTemplatesTitleGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.title === null || requestParameters.title === undefined) {
+            throw new runtime.RequiredError('title','Required parameter requestParameters.title was null or undefined when calling getTemplateByTitleTemplatesTitleGet.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/templates/{title}`.replace(`{${"title"}}`, encodeURIComponent(String(requestParameters.title))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Get Template By Title
+     */
+    async getTemplateByTitleTemplatesTitleGet(requestParameters: GetTemplateByTitleTemplatesTitleGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.getTemplateByTitleTemplatesTitleGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Patch Template
+     */
+    async patchTemplateTemplatesIdPatchRaw(requestParameters: PatchTemplateTemplatesIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling patchTemplateTemplatesIdPatch.');
+        }
+
+        if (requestParameters.templateOnlyTitleHtml === null || requestParameters.templateOnlyTitleHtml === undefined) {
+            throw new runtime.RequiredError('templateOnlyTitleHtml','Required parameter requestParameters.templateOnlyTitleHtml was null or undefined when calling patchTemplateTemplatesIdPatch.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/templates/{id_}`.replace(`{${"id_"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: TemplateOnlyTitleHtmlToJSON(requestParameters.templateOnlyTitleHtml),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Patch Template
+     */
+    async patchTemplateTemplatesIdPatch(requestParameters: PatchTemplateTemplatesIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.patchTemplateTemplatesIdPatchRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Topmost Windows

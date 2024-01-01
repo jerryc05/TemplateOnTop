@@ -2,13 +2,16 @@
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Type, cast
 
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Response, status
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from app_topmost import get_visible_windows, WindowInfo, set_hwnd_topmost
+from tinydb import TinyDB, where
+from tinydb.table import Document
+
+from app_topmost import WindowInfo, get_visible_windows, set_hwnd_topmost
 
 #
 #
@@ -54,6 +57,13 @@ else:
 #
 #
 
+TinyDB.default_query_cache_capacity = 30
+db = TinyDB(working_dir / "db.json")
+
+#
+#
+#
+
 
 @api.post("/windows")
 def visible_windows() -> "list[WindowInfo]":
@@ -76,6 +86,93 @@ def topmost_windows(req: TopMostRequest):
     set_hwnd_topmost(req.hwnd, req.top)
 
 
+#
+#
+#
+
+
+TitleT = str
+HtmlT = str
+
+
+class TemplateNoHtml(BaseModel):
+    id: int
+    title: TitleT
+    last_modified: int
+    created: int
+
+
+class Template(TemplateNoHtml):
+    html: HtmlT
+
+
+class TemplateOnlyTitleHtml(BaseModel):
+    title: "TitleT|None"
+    html: "HtmlT|None"
+
+
+def template_from_doc(doc: Document):
+    return Template(
+        id=doc.doc_id,
+        **doc,  # pyright: ignore[reportUnknownArgumentType]
+    )
+
+
+@api.get("/templates")
+def get_all_templates() -> list[TemplateNoHtml]:
+    return [template_from_doc(x) for x in db.all()]
+
+
+def postprocess_db_get(res: "Document|list[Document]|None"):
+    rt: "list[Template]" = []
+    if res is not None:
+        if not isinstance(res, list):
+            rt = [template_from_doc(res)]
+        else:
+            rt = [template_from_doc(x) for x in res]
+    return rt
+
+
+@api.get("/templates/{id_}")
+def get_template_by_id(id_: int):
+    res = db.get(doc_id=id_)  # pyright: ignore[reportUnknownMemberType]
+    return template_from_doc(cast(Document, res))
+
+
+@api.get("/templates/{title}")
+def get_template_by_title(title: str):
+    res = db.search(where("title") == title)  # pyright: ignore[reportUnknownMemberType]
+    return postprocess_db_get(res)
+
+
+@api.post("/templates")
+def create_template(resp: Response, template: Template):
+    res = db.insert(  # pyright: ignore[reportUnknownMemberType]
+        template.model_dump()
+    )
+    resp.status_code = status.HTTP_201_CREATED
+    return res
+
+
+@api.patch("/templates/{id_}")
+def patch_template(id_: int, template: TemplateOnlyTitleHtml):
+    res = db.update(  # pyright: ignore[reportUnknownMemberType]
+        fields=template.model_dump(),
+        doc_ids=[id_],
+    )
+    return res
+
+
+@api.delete("/templates/{id_}")
+def delete_template(id_: int):
+    return db.remove(doc_ids=[id_])
+
+
+#
+#
+#
+
+
 with open(working_dir / "openapi.json", "w") as f:
     json.dump(obj=api.openapi(), fp=f, indent=1)
 
@@ -86,12 +183,13 @@ if __name__ == "__main__":
     if sys.argv[1:] == ["--dry-run"]:
         sys.exit(0)
 
+    import ipaddress
     import os
     import socket
-    import uvicorn
-    import netifaces
     import webbrowser
-    import ipaddress
+
+    import netifaces
+    import uvicorn
 
     host = str(ipaddress.ip_address(socket.INADDR_LOOPBACK))
     port = int(os.getenv("PORT", 18080))

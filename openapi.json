@@ -67,6 +67,216 @@
      }
     }
    }
+  },
+  "/templates": {
+   "get": {
+    "summary": "Get All Templates",
+    "operationId": "get_all_templates_templates_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/TemplateNoHtml"
+         },
+         "type": "array",
+         "title": "Response Get All Templates Templates Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "summary": "Create Template",
+    "operationId": "create_template_templates_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Template"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/templates/{id_}": {
+   "get": {
+    "summary": "Get Template By Id",
+    "operationId": "get_template_by_id_templates__id___get",
+    "parameters": [
+     {
+      "name": "id_",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Id "
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "patch": {
+    "summary": "Patch Template",
+    "operationId": "patch_template_templates__id___patch",
+    "parameters": [
+     {
+      "name": "id_",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Id "
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TemplateOnlyTitleHtml"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "delete": {
+    "summary": "Delete Template",
+    "operationId": "delete_template_templates__id___delete",
+    "parameters": [
+     {
+      "name": "id_",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Id "
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/templates/{title}": {
+   "get": {
+    "summary": "Get Template By Title",
+    "operationId": "get_template_by_title_templates__title__get",
+    "parameters": [
+     {
+      "name": "title",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Title"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
   }
  },
  "components": {
@@ -83,6 +293,99 @@
     },
     "type": "object",
     "title": "HTTPValidationError"
+   },
+   "Template": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "last_modified": {
+      "type": "integer",
+      "title": "Last Modified"
+     },
+     "created": {
+      "type": "integer",
+      "title": "Created"
+     },
+     "html": {
+      "type": "string",
+      "title": "Html"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "title",
+     "last_modified",
+     "created",
+     "html"
+    ],
+    "title": "Template"
+   },
+   "TemplateNoHtml": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "last_modified": {
+      "type": "integer",
+      "title": "Last Modified"
+     },
+     "created": {
+      "type": "integer",
+      "title": "Created"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "title",
+     "last_modified",
+     "created"
+    ],
+    "title": "TemplateNoHtml"
+   },
+   "TemplateOnlyTitleHtml": {
+    "properties": {
+     "title": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Title"
+     },
+     "html": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Html"
+     }
+    },
+    "type": "object",
+    "required": [
+     "title",
+     "html"
+    ],
+    "title": "TemplateOnlyTitleHtml"
    },
    "TopMostRequest": {
     "properties": {
