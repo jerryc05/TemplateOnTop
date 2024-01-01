@@ -91,15 +91,17 @@ if __name__ == "__main__":
     import uvicorn
     import netifaces
     import webbrowser
+    import ipaddress
 
+    host = str(ipaddress.ip_address(socket.INADDR_LOOPBACK))
     port = int(os.getenv("PORT", 18080))
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.settimeout(0.2)
-        if sock.connect_ex(("127.0.0.1", port)) == 0:
+        if sock.connect_ex((host, port)) == 0:
             raise RuntimeError(f"Port {port} is already in use!")
 
-    webbrowser.open_new(f"http://127.0.0.1:{port}/")
+    webbrowser.open_new(f"http://{host}:{port}/")
 
     uvicorn.run(  # pyright: ignore[reportUnknownMemberType]
         f"{Path(__file__).stem}:{f'{app=}'.split('=')[0]}",
