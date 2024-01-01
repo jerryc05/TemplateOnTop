@@ -90,6 +90,7 @@ if __name__ == "__main__":
     import socket
     import uvicorn
     import netifaces
+    import webbrowser
 
     port = int(os.getenv("PORT", 18080))
 
@@ -97,6 +98,8 @@ if __name__ == "__main__":
         sock.settimeout(0.2)
         if sock.connect_ex(("127.0.0.1", port)) == 0:
             raise RuntimeError(f"Port {port} is already in use!")
+
+    webbrowser.open_new(f"http://127.0.0.1:{port}/")
 
     uvicorn.run(  # pyright: ignore[reportUnknownMemberType]
         f"{Path(__file__).stem}:{f'{app=}'.split('=')[0]}",
