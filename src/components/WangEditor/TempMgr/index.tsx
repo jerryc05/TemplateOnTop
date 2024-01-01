@@ -22,6 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/shadcnui/ui/table'
+import { NewTempPopover, bottomBtnClass } from './NewTempPopover'
 
 export const FileMgr = React.memo(
   ({ className }: { className: React.HTMLAttributes<never>['className'] }) => {
@@ -83,8 +84,6 @@ export const FileMgr = React.memo(
       return rv
     }, [searchText, index, allTemps])
 
-    const bottomBtnClass = 'flex-1 hover:scale-105 active:scale-100'
-
     return (
       <Dialog
         onOpenChange={isOpen => {
@@ -135,7 +134,7 @@ export const FileMgr = React.memo(
             </div>
           )}
           <div className='flex gap-x-3'>
-            <Button className={bottomBtnClass}>新建模版</Button>
+            <NewTempPopover />
             <Button
               variant='outline'
               className={bottomBtnClass}

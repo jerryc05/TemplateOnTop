@@ -16,13 +16,14 @@ import {
 import { CopyBtn } from './CopyBtn'
 import { SaveBtn } from './SaveBtn'
 import { FileMgr } from './TempMgr'
+import { DEFAULT_HTML } from './util'
 
 export function MyWangEditor(
   props: Readonly<React.HTMLAttributes<HTMLDivElement>>
 ) {
   const [editor, setEditor] = useState<IDomEditor | null>(null)
   const [html, setHtml] = useState<string>('')
-  const [originalContent, setOriginalContent] = useState<string>('<p><br></p>')
+  const [originalContent, setOriginalContent] = useState<string>(DEFAULT_HTML)
 
   const toolbarConfig: Partial<IToolbarConfig> = {}
   const editorConfig: Partial<IEditorConfig> = {
@@ -42,10 +43,7 @@ export function MyWangEditor(
 
   return (
     <>
-      <CopyBtn
-        className='fixed right-5 bottom-[14rem] z-10'
-        editor={editor}
-      />
+      <CopyBtn className='fixed right-5 bottom-[14rem] z-10' editor={editor} />
       <SaveBtn
         className='fixed right-5 bottom-[10rem] z-10'
         isChanged={html !== originalContent}
