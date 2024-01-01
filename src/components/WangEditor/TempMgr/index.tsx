@@ -83,6 +83,8 @@ export const FileMgr = React.memo(
       return rv
     }, [searchText, index, allTemps])
 
+    const bottomBtnClass = 'flex-1 hover:scale-105 active:scale-100'
+
     return (
       <Dialog
         onOpenChange={isOpen => {
@@ -104,7 +106,6 @@ export const FileMgr = React.memo(
               在这里搜索、添加、修改、或删除任何模版
             </DialogDescription>
           </DialogHeader>
-
           <Input
             placeholder='在这里搜索……'
             value={searchText}
@@ -133,6 +134,12 @@ export const FileMgr = React.memo(
               <Loader2 size='40' className='animate-spin' />
             </div>
           )}
+          <div className='flex gap-x-3'>
+            <Button className={bottomBtnClass}>新建模版</Button>
+            <Button variant='outline' className={bottomBtnClass}>
+              刷新
+            </Button>
+          </div>{' '}
         </DialogContent>
       </Dialog>
     )
