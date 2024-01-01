@@ -27,7 +27,6 @@ import {
   TableRow,
 } from '@/shadcnui/ui/table'
 import { NewTempPopover, bottomBtnClass } from './NewTempPopover'
-import { DEFAULT_HTML } from '../util'
 
 export const TempMgr = React.memo(
   ({
@@ -35,7 +34,7 @@ export const TempMgr = React.memo(
     onTempOpened,
   }: {
     className: React.HTMLAttributes<never>['className']
-    onTempOpened: (temp: TemplateContent) => void
+    onTempOpened: (id: number, temp: TemplateContent) => void
   }) => {
     const index = React.useRef<FlexDocT<Template> | null>(null)
 
@@ -105,7 +104,7 @@ export const TempMgr = React.memo(
         open={isDialogOpen}
         onOpenChange={isOpen => {
           setIsDialogOpen(isOpen)
-          if (isOpen && allTemps == null) refresh().catch(console.error)
+          if (isOpen) refresh().catch(console.error)
         }}
       >
         <DialogTrigger asChild>

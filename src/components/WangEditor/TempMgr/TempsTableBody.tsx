@@ -9,7 +9,7 @@ export const TempsTableBody = React.memo(
     setIsDialogOpen,
   }: {
     filteredTemps: Template[] | null
-    onTempOpened: (temp: TemplateContent) => void
+    onTempOpened: (id: number, temp: TemplateContent) => void
     setIsDialogOpen: (isOpen: boolean) => void
   }) => {
     return filteredTemps?.map(temp => (
@@ -17,7 +17,7 @@ export const TempsTableBody = React.memo(
         key={temp.id}
         className='cursor-pointer'
         onClick={() => {
-          onTempOpened(temp)
+          onTempOpened(temp.id, temp)
           setIsDialogOpen(false)
         }}
       >

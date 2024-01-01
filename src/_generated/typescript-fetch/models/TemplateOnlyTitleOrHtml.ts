@@ -24,13 +24,13 @@ export interface TemplateOnlyTitleOrHtml {
      * @type {string}
      * @memberof TemplateOnlyTitleOrHtml
      */
-    title: string | null;
+    title?: string | null;
     /**
      * 
      * @type {string}
      * @memberof TemplateOnlyTitleOrHtml
      */
-    html: string | null;
+    html?: string | null;
 }
 
 /**
@@ -38,8 +38,6 @@ export interface TemplateOnlyTitleOrHtml {
  */
 export function instanceOfTemplateOnlyTitleOrHtml(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "title" in value;
-    isInstance = isInstance && "html" in value;
 
     return isInstance;
 }
@@ -54,8 +52,8 @@ export function TemplateOnlyTitleOrHtmlFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'title': json['title'],
-        'html': json['html'],
+        'title': !exists(json, 'title') ? undefined : json['title'],
+        'html': !exists(json, 'html') ? undefined : json['html'],
     };
 }
 

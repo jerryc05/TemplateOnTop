@@ -110,8 +110,8 @@ FIELD_NAME_CREATED = "created"
 
 
 class TemplateOnlyTitleOrHtml(BaseModel):
-    title: "TitleT|None"
-    html: "HtmlT|None"
+    title: "TitleT|None" = None
+    html: "HtmlT|None" = None
 
 
 class TemplateContent(BaseModel):
@@ -184,7 +184,10 @@ def create_template(resp: Response, template: TemplateContent) -> int:
 @api.patch("/templates/id/{id_}")
 def patch_template(id_: int, template: TemplateOnlyTitleOrHtml) -> "list[int]":
     res = db.update(  # pyright: ignore[reportUnknownMemberType]
-        fields={**template.model_dump(), FIELD_NAME_LAST_MODIFIED: time.time()},
+        fields={
+            **{k: v for (k, v) in template.model_dump().items() if v is not None},
+            FIELD_NAME_LAST_MODIFIED: time.time(),
+        },
         doc_ids=[id_],
     )
     return res

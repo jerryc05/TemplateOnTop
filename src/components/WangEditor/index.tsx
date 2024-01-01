@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
 import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 
@@ -27,6 +27,7 @@ export function MyWangEditor({
   setTitle: (title: string) => void
 }) {
   const [editor, setEditor] = React.useState<IDomEditor | null>(null)
+  const [id,setId] = React.useState<number>(0)
   const [html, setHtml] = React.useState<string>('')
   const [originalHtml, setOriginalHtml] = React.useState<string>(DEFAULT_HTML)
 
@@ -38,7 +39,7 @@ export function MyWangEditor({
     },
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     return () => {
       if (editor == null) return
       editor.destroy()
@@ -47,7 +48,8 @@ export function MyWangEditor({
   }, [editor])
 
   const onTempOpened = React.useCallback(
-    (temp: TemplateContent) => {
+    (id:number,temp: TemplateContent) => {
+      setId(id)
       setTitle(temp.title)
       setHtml(temp.html)
       setOriginalHtml(temp.html)
@@ -55,13 +57,19 @@ export function MyWangEditor({
     [setTitle, setHtml, setOriginalHtml]
   )
 
+  const onSaveSuccess = React.useCallback(() => {
+    setOriginalHtml(html)
+  }, [setOriginalHtml, html])
+
   return (
     <>
       <CopyBtn className='fixed right-5 bottom-[14rem] z-10' editor={editor} />
       <SaveBtn
         className='fixed right-5 bottom-[10rem] z-10'
         isChanged={html !== originalHtml}
-        originalContent={originalHtml}
+        onSaveSuccess={onSaveSuccess}
+        id={id}
+        html={html}
       />
       <TempMgr
         className='fixed right-5 bottom-[6rem] z-10'
