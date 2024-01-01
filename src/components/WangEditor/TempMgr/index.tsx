@@ -136,10 +136,16 @@ export const FileMgr = React.memo(
           )}
           <div className='flex gap-x-3'>
             <Button className={bottomBtnClass}>新建模版</Button>
-            <Button variant='outline' className={bottomBtnClass}>
+            <Button
+              variant='outline'
+              className={bottomBtnClass}
+              onClick={() => {
+                refresh().catch(console.error)
+              }}
+            >
               刷新
             </Button>
-          </div>{' '}
+          </div>
         </DialogContent>
       </Dialog>
     )
