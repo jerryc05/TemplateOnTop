@@ -183,3 +183,4 @@ cython_debug/
 
 openapitools*
 db.json
+*.zip

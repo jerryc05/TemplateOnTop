@@ -16,9 +16,7 @@ import { Input } from '@/shadcnui/ui/input'
 import { bottomRightBtnClass } from '@/utils'
 import { FolderKanban, Loader2 } from 'lucide-react'
 import React from 'react'
-import { TempsTableBody } from './TempsTableBody'
-import FlexDocument from 'flexsearch/dist/module/document'
-import { type Document as FlexDocT } from '@types/flexsearch'
+import FlexDoc from 'flexsearch/src/document'
 import {
   Table,
   TableBody,
@@ -26,6 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/shadcnui/ui/table'
+import { TempsTableBody } from './TempsTableBody'
 import { NewTempPopover, bottomBtnClass } from './NewTempPopover'
 
 export const TempMgr = React.memo(
@@ -36,7 +35,7 @@ export const TempMgr = React.memo(
     className: React.HTMLAttributes<never>['className']
     onTempOpened: (id: number, temp: TemplateContent) => void
   }) => {
-    const index = React.useRef<FlexDocT<Template> | null>(null)
+    const index = React.useRef<FlexDoc<Template> | null>(null)
 
     const [allTemps, setAllTemps_] = React.useState<Template[] | null>(null)
     const setAllTemps = React.useCallback(
@@ -44,7 +43,7 @@ export const TempMgr = React.memo(
         setAllTemps_(temps)
         if (temps != null) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-          index.current = new FlexDocument({
+          index.current = new FlexDoc({
             tokenize: 'full',
             cache: 5,
             language: 'jp',
@@ -52,7 +51,7 @@ export const TempMgr = React.memo(
               id: 'id',
               index: ['title', 'html'],
             },
-          }) as FlexDocT<Template>
+          })
           temps.forEach(temp => {
             index.current?.add(temp)
           })
