@@ -21,16 +21,16 @@ import { exists, mapValues } from '../runtime';
 export interface Template {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Template
      */
-    id: number;
+    title: string;
     /**
      * 
      * @type {string}
      * @memberof Template
      */
-    title: string;
+    html: string;
     /**
      * 
      * @type {number}
@@ -45,10 +45,10 @@ export interface Template {
     created: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof Template
      */
-    html: string;
+    id: number;
 }
 
 /**
@@ -56,11 +56,11 @@ export interface Template {
  */
 export function instanceOfTemplate(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "id" in value;
     isInstance = isInstance && "title" in value;
+    isInstance = isInstance && "html" in value;
     isInstance = isInstance && "lastModified" in value;
     isInstance = isInstance && "created" in value;
-    isInstance = isInstance && "html" in value;
+    isInstance = isInstance && "id" in value;
 
     return isInstance;
 }
@@ -75,11 +75,11 @@ export function TemplateFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'id': json['id'],
         'title': json['title'],
+        'html': json['html'],
         'lastModified': json['last_modified'],
         'created': json['created'],
-        'html': json['html'],
+        'id': json['id'],
     };
 }
 
@@ -92,11 +92,11 @@ export function TemplateToJSON(value?: Template | null): any {
     }
     return {
         
-        'id': value.id,
         'title': value.title,
+        'html': value.html,
         'last_modified': value.lastModified,
         'created': value.created,
-        'html': value.html,
+        'id': value.id,
     };
 }
 

@@ -79,7 +79,7 @@
        "application/json": {
         "schema": {
          "items": {
-          "$ref": "#/components/schemas/TemplateNoHtml"
+          "$ref": "#/components/schemas/Template"
          },
          "type": "array",
          "title": "Response Get All Templates Templates Get"
@@ -96,7 +96,7 @@
      "content": {
       "application/json": {
        "schema": {
-        "$ref": "#/components/schemas/Template"
+        "$ref": "#/components/schemas/TemplateContent"
        }
       }
      },
@@ -107,7 +107,10 @@
       "description": "Successful Response",
       "content": {
        "application/json": {
-        "schema": {}
+        "schema": {
+         "type": "integer",
+         "title": "Response Create Template Templates Post"
+        }
        }
       }
      },
@@ -124,10 +127,10 @@
     }
    }
   },
-  "/templates/{id_}": {
+  "/templates/id/{id_}": {
    "get": {
     "summary": "Get Template By Id",
-    "operationId": "get_template_by_id_templates__id___get",
+    "operationId": "get_template_by_id_templates_id__id___get",
     "parameters": [
      {
       "name": "id_",
@@ -144,7 +147,9 @@
       "description": "Successful Response",
       "content": {
        "application/json": {
-        "schema": {}
+        "schema": {
+         "$ref": "#/components/schemas/Template"
+        }
        }
       }
      },
@@ -162,7 +167,7 @@
    },
    "patch": {
     "summary": "Patch Template",
-    "operationId": "patch_template_templates__id___patch",
+    "operationId": "patch_template_templates_id__id___patch",
     "parameters": [
      {
       "name": "id_",
@@ -179,7 +184,7 @@
      "content": {
       "application/json": {
        "schema": {
-        "$ref": "#/components/schemas/TemplateOnlyTitleHtml"
+        "$ref": "#/components/schemas/TemplateOnlyTitleOrHtml"
        }
       }
      }
@@ -189,7 +194,13 @@
       "description": "Successful Response",
       "content": {
        "application/json": {
-        "schema": {}
+        "schema": {
+         "type": "array",
+         "items": {
+          "type": "integer"
+         },
+         "title": "Response Patch Template Templates Id  Id   Patch"
+        }
        }
       }
      },
@@ -204,7 +215,52 @@
       }
      }
     }
-   },
+   }
+  },
+  "/templates/title/{title}": {
+   "get": {
+    "summary": "Get Template By Title",
+    "operationId": "get_template_by_title_templates_title__title__get",
+    "parameters": [
+     {
+      "name": "title",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Title"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/Template"
+         },
+         "title": "Response Get Template By Title Templates Title  Title  Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/templates/{id_}": {
    "delete": {
     "summary": "Delete Template",
     "operationId": "delete_template_templates__id___delete",
@@ -224,44 +280,13 @@
       "description": "Successful Response",
       "content": {
        "application/json": {
-        "schema": {}
-       }
-      }
-     },
-     "422": {
-      "description": "Validation Error",
-      "content": {
-       "application/json": {
         "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
+         "type": "array",
+         "items": {
+          "type": "integer"
+         },
+         "title": "Response Delete Template Templates  Id   Delete"
         }
-       }
-      }
-     }
-    }
-   }
-  },
-  "/templates/{title}": {
-   "get": {
-    "summary": "Get Template By Title",
-    "operationId": "get_template_by_title_templates__title__get",
-    "parameters": [
-     {
-      "name": "title",
-      "in": "path",
-      "required": true,
-      "schema": {
-       "type": "string",
-       "title": "Title"
-      }
-     }
-    ],
-    "responses": {
-     "200": {
-      "description": "Successful Response",
-      "content": {
-       "application/json": {
-        "schema": {}
        }
       }
      },
@@ -296,66 +321,56 @@
    },
    "Template": {
     "properties": {
-     "id": {
-      "type": "integer",
-      "title": "Id"
-     },
      "title": {
       "type": "string",
       "title": "Title"
      },
-     "last_modified": {
-      "type": "integer",
-      "title": "Last Modified"
-     },
-     "created": {
-      "type": "integer",
-      "title": "Created"
-     },
      "html": {
       "type": "string",
       "title": "Html"
+     },
+     "last_modified": {
+      "type": "number",
+      "title": "Last Modified"
+     },
+     "created": {
+      "type": "number",
+      "title": "Created"
+     },
+     "id": {
+      "type": "integer",
+      "title": "Id"
      }
     },
     "type": "object",
     "required": [
-     "id",
      "title",
+     "html",
      "last_modified",
      "created",
-     "html"
+     "id"
     ],
     "title": "Template"
    },
-   "TemplateNoHtml": {
+   "TemplateContent": {
     "properties": {
-     "id": {
-      "type": "integer",
-      "title": "Id"
-     },
      "title": {
       "type": "string",
       "title": "Title"
      },
-     "last_modified": {
-      "type": "integer",
-      "title": "Last Modified"
-     },
-     "created": {
-      "type": "integer",
-      "title": "Created"
+     "html": {
+      "type": "string",
+      "title": "Html"
      }
     },
     "type": "object",
     "required": [
-     "id",
      "title",
-     "last_modified",
-     "created"
+     "html"
     ],
-    "title": "TemplateNoHtml"
+    "title": "TemplateContent"
    },
-   "TemplateOnlyTitleHtml": {
+   "TemplateOnlyTitleOrHtml": {
     "properties": {
      "title": {
       "anyOf": [
@@ -385,7 +400,7 @@
      "title",
      "html"
     ],
-    "title": "TemplateOnlyTitleHtml"
+    "title": "TemplateOnlyTitleOrHtml"
    },
    "TopMostRequest": {
     "properties": {

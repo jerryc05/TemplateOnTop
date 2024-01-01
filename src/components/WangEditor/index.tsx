@@ -15,7 +15,7 @@ import {
 } from '@/utils'
 import { CopyBtn } from './CopyBtn'
 import { SaveBtn } from './SaveBtn'
-import { FileMgr } from './FileMgr'
+import { FileMgr } from './TempMgr'
 
 export function MyWangEditor(
   props: Readonly<React.HTMLAttributes<HTMLDivElement>>

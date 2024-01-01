@@ -5,8 +5,8 @@ index.ts
 models/HTTPValidationError.ts
 models/LocationInner.ts
 models/Template.ts
-models/TemplateNoHtml.ts
-models/TemplateOnlyTitleHtml.ts
+models/TemplateContent.ts
+models/TemplateOnlyTitleOrHtml.ts
 models/TopMostRequest.ts
 models/ValidationError.ts
 models/WindowInfo.ts

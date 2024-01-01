@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface TemplateOnlyTitleHtml
+ * @interface TemplateContent
  */
-export interface TemplateOnlyTitleHtml {
+export interface TemplateContent {
     /**
      * 
      * @type {string}
-     * @memberof TemplateOnlyTitleHtml
+     * @memberof TemplateContent
      */
-    title: string | null;
+    title: string;
     /**
      * 
      * @type {string}
-     * @memberof TemplateOnlyTitleHtml
+     * @memberof TemplateContent
      */
-    html: string | null;
+    html: string;
 }
 
 /**
- * Check if a given object implements the TemplateOnlyTitleHtml interface.
+ * Check if a given object implements the TemplateContent interface.
  */
-export function instanceOfTemplateOnlyTitleHtml(value: object): boolean {
+export function instanceOfTemplateContent(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "title" in value;
     isInstance = isInstance && "html" in value;
@@ -44,11 +44,11 @@ export function instanceOfTemplateOnlyTitleHtml(value: object): boolean {
     return isInstance;
 }
 
-export function TemplateOnlyTitleHtmlFromJSON(json: any): TemplateOnlyTitleHtml {
-    return TemplateOnlyTitleHtmlFromJSONTyped(json, false);
+export function TemplateContentFromJSON(json: any): TemplateContent {
+    return TemplateContentFromJSONTyped(json, false);
 }
 
-export function TemplateOnlyTitleHtmlFromJSONTyped(json: any, ignoreDiscriminator: boolean): TemplateOnlyTitleHtml {
+export function TemplateContentFromJSONTyped(json: any, ignoreDiscriminator: boolean): TemplateContent {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -59,7 +59,7 @@ export function TemplateOnlyTitleHtmlFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function TemplateOnlyTitleHtmlToJSON(value?: TemplateOnlyTitleHtml | null): any {
+export function TemplateContentToJSON(value?: TemplateContent | null): any {
     if (value === undefined) {
         return undefined;
     }

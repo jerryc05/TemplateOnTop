@@ -2,13 +2,14 @@
 
 import json
 from pathlib import Path
-from typing import Any, Type, cast
+import time
+from typing import Any, cast
 
 from fastapi import FastAPI, HTTPException, Response, status
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from tinydb import TinyDB, where
+from tinydb import JSONStorage, TinyDB, where
 from tinydb.table import Document
 
 from app_topmost import WindowInfo, get_visible_windows, set_hwnd_topmost
@@ -57,7 +58,16 @@ else:
 #
 #
 
+
+class MyJSONStorage(JSONStorage):
+    def __init__(self, *args: Any, **kwargs: Any):
+        super().__init__(  # pyright: ignore[reportUnknownMemberType]
+            *args, **kwargs, indent=1
+        )
+
+
 TinyDB.default_query_cache_capacity = 30
+TinyDB.default_storage_class = MyJSONStorage
 db = TinyDB(working_dir / "db.json")
 
 #
@@ -90,28 +100,39 @@ def topmost_windows(req: TopMostRequest):
 #
 #
 
-
+IdT = int
 TitleT = str
 HtmlT = str
+LastModifiedT = float
+CreatedT = float
+FIELD_NAME_LAST_MODIFIED = "last_modified"
+FIELD_NAME_CREATED = "created"
 
 
-class TemplateNoHtml(BaseModel):
-    id: int
-    title: TitleT
-    last_modified: int
-    created: int
-
-
-class Template(TemplateNoHtml):
-    html: HtmlT
-
-
-class TemplateOnlyTitleHtml(BaseModel):
+class TemplateOnlyTitleOrHtml(BaseModel):
     title: "TitleT|None"
     html: "HtmlT|None"
 
 
-def template_from_doc(doc: Document):
+class TemplateContent(BaseModel):
+    title: TitleT
+    html: HtmlT
+
+
+class TemplateNoId(TemplateContent):
+    last_modified: LastModifiedT
+    created: CreatedT
+
+
+assert FIELD_NAME_LAST_MODIFIED in TemplateNoId.model_fields
+assert FIELD_NAME_CREATED in TemplateNoId.model_fields
+
+
+class Template(TemplateNoId):
+    id: IdT
+
+
+def template_from_doc(doc: Document) -> "Template":
     return Template(
         id=doc.doc_id,
         **doc,  # pyright: ignore[reportUnknownArgumentType]
@@ -119,7 +140,7 @@ def template_from_doc(doc: Document):
 
 
 @api.get("/templates")
-def get_all_templates() -> list[TemplateNoHtml]:
+def get_all_templates() -> "list[Template]":
     return [template_from_doc(x) for x in db.all()]
 
 
@@ -133,38 +154,44 @@ def postprocess_db_get(res: "Document|list[Document]|None"):
     return rt
 
 
-@api.get("/templates/{id_}")
-def get_template_by_id(id_: int):
+@api.get("/templates/id/{id_}")
+def get_template_by_id(id_: int) -> "Template":
     res = db.get(doc_id=id_)  # pyright: ignore[reportUnknownMemberType]
     return template_from_doc(cast(Document, res))
 
 
-@api.get("/templates/{title}")
-def get_template_by_title(title: str):
+@api.get("/templates/title/{title}")
+def get_template_by_title(title: str) -> "list[Template]":
     res = db.search(where("title") == title)  # pyright: ignore[reportUnknownMemberType]
     return postprocess_db_get(res)
 
 
 @api.post("/templates")
-def create_template(resp: Response, template: Template):
+def create_template(resp: Response, template: TemplateContent) -> int:
+    cur_time = time.time()
     res = db.insert(  # pyright: ignore[reportUnknownMemberType]
-        template.model_dump()
+        TemplateNoId(
+            title=template.title,
+            html=template.html,
+            created=cur_time,
+            last_modified=cur_time,
+        ).model_dump()
     )
     resp.status_code = status.HTTP_201_CREATED
     return res
 
 
-@api.patch("/templates/{id_}")
-def patch_template(id_: int, template: TemplateOnlyTitleHtml):
+@api.patch("/templates/id/{id_}")
+def patch_template(id_: int, template: TemplateOnlyTitleOrHtml) -> "list[int]":
     res = db.update(  # pyright: ignore[reportUnknownMemberType]
-        fields=template.model_dump(),
+        fields={**template.model_dump(), FIELD_NAME_LAST_MODIFIED: time.time()},
         doc_ids=[id_],
     )
     return res
 
 
 @api.delete("/templates/{id_}")
-def delete_template(id_: int):
+def delete_template(id_: int) -> "list[int]":
     return db.remove(doc_ids=[id_])
 
 
@@ -187,8 +214,6 @@ if __name__ == "__main__":
     import os
     import socket
     import webbrowser
-
-    import netifaces
     import uvicorn
 
     host = str(ipaddress.ip_address(socket.INADDR_LOOPBACK))
