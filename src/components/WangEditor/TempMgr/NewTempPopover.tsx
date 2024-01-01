@@ -43,7 +43,7 @@ export const NewTempPopover = React.memo(
               <div className='mb-1 text-sm font-bold'>标题</div>
               <div className='flex gap-x-2'>
                 <Input
-                  className='input'
+                  className='h-9'
                   onChange={e => {
                     setTitle(e.target.value)
                   }}
@@ -51,7 +51,7 @@ export const NewTempPopover = React.memo(
                 <Button
                   type='submit'
                   disabled={!title}
-                  className='w-10 h-10 p-2 hover:scale-105 active:scale-100'
+                  className='w-9 h-9 p-2 hover:scale-105 active:scale-100'
                 >
                   {!pending ? (
                     <FilePlus2 />
