@@ -53,10 +53,6 @@ export const FileMgr = React.memo(
         .catch(console.error)
     }, [setAllTemps])
 
-    useEffect(() => {
-      refresh().catch(console.error)
-    }, [refresh])
-
     const [searchText, setSearchText] = React.useState('')
     const filteredTemps = React.useMemo(() => {
       if (!searchText || allTemps == null) return allTemps
@@ -81,7 +77,11 @@ export const FileMgr = React.memo(
     }, [searchText, index, allTemps])
 
     return (
-      <Dialog>
+      <Dialog
+        onOpenChange={isOpen => {
+          if (isOpen && allTemps == null) refresh().catch(console.error)
+        }}
+      >
         <DialogTrigger asChild>
           <Button
             className={`${bottomRightBtnClass} ${className}`}

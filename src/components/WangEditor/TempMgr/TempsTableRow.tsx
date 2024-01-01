@@ -14,7 +14,7 @@ export const TempsTableRow = React.memo(
   }) => (
     <TableRow key={temp.id}>
       <TableCell className='px-1 w-6 font-medium'>{temp.id}</TableCell>
-      <TableCell className='px-1 max-w-32 overflow-hidden overflow-ellipsis'>
+      <TableCell className='px-1 max-w-36 overflow-hidden overflow-ellipsis'>
         {temp.title}
       </TableCell>
       <TableCell className='px-1 pr-3 max-w-48 overflow-hidden overflow-ellipsis'>
