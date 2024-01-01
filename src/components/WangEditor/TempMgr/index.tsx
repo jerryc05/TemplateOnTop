@@ -14,7 +14,7 @@ import {
 } from '@/shadcnui/ui/dialog'
 import { Input } from '@/shadcnui/ui/input'
 import { bottomRightBtnClass } from '@/utils'
-import { FolderKanban, Loader2 } from 'lucide-react'
+import { FolderKanban, Loader2, Search } from 'lucide-react'
 import React from 'react'
 import FlexDoc from 'flexsearch/src/document'
 import {
@@ -121,13 +121,20 @@ export const TempMgr = React.memo(
               在这里搜索、添加、修改、或删除任何模版
             </DialogDescription>
           </DialogHeader>
-          <Input
-            placeholder='在这里搜索……'
-            value={searchText}
-            onChange={e => {
-              setSearchText(e.target.value)
-            }}
-          />
+          <div className='relative'>
+            <Search
+              size='20'
+              className='absolute muted- left-3 top-1/2 -translate-y-1/2'
+            />
+            <Input
+              className='pl-10'
+              placeholder='在这里搜索……'
+              value={searchText}
+              onChange={e => {
+                setSearchText(e.target.value)
+              }}
+            />
+          </div>
           {allTemps != null ? (
             <Table>
               <TableHeader>
