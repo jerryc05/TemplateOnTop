@@ -33,7 +33,7 @@ function formatDate(now: number, timestamp: number) {
   return date.toLocaleDateString()
 }
 
-export const TempsTable = React.memo(
+export const TempsTableBody = React.memo(
   ({ filteredTemps }: { filteredTemps: Template[] | null }) => {
     const [now, setNow] = React.useState(Date.now())
     useEffect(() => {
@@ -45,31 +45,15 @@ export const TempsTable = React.memo(
       }
     }, [])
 
-    return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className='px-1'>ID</TableHead>
-            <TableHead className='px-1'>标题</TableHead>
-            <TableHead className='px-1'>内容</TableHead>
-            <TableHead className='px-1'>最后修改时间</TableHead>
-            <TableHead className='px-1'>最早创建时间</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredTemps?.map(temp => (
-            <TempsTableRow
-              key={temp.id}
-              temp={temp}
-              lastModified={formatDate(now, temp.lastModified)}
-              created={formatDate(now, temp.created)}
-            />
-          ))}
-        </TableBody>
-        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-      </Table>
-    )
+    return filteredTemps?.map(temp => (
+      <TempsTableRow
+        key={temp.id}
+        temp={temp}
+        lastModified={formatDate(now, temp.lastModified)}
+        created={formatDate(now, temp.created)}
+      />
+    ))
   }
 )
 
-TempsTable.displayName = 'TempsTable'
+TempsTableBody.displayName = 'TempsTableBody'

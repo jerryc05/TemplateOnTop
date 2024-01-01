@@ -12,9 +12,16 @@ import { Input } from '@/shadcnui/ui/input'
 import { bottomRightBtnClass } from '@/utils'
 import { FolderKanban, Loader2 } from 'lucide-react'
 import React, { useEffect } from 'react'
-import { TempsTable } from './TempsTable'
+import { TempsTableBody } from './TempsTableBody'
 import FlexDocument from 'flexsearch/dist/module/document'
 import { type Document as FlexDocT } from '@types/flexsearch'
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/shadcnui/ui/table'
 
 export const FileMgr = React.memo(
   ({ className }: { className: React.HTMLAttributes<never>['className'] }) => {
@@ -106,7 +113,21 @@ export const FileMgr = React.memo(
             }}
           />
           {allTemps != null ? (
-            <TempsTable filteredTemps={filteredTemps} />
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className='px-1'>ID</TableHead>
+                  <TableHead className='px-1'>标题</TableHead>
+                  <TableHead className='px-1'>内容</TableHead>
+                  <TableHead className='px-1'>最后修改时间</TableHead>
+                  <TableHead className='px-1'>最早创建时间</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TempsTableBody filteredTemps={filteredTemps} />
+              </TableBody>
+              {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+            </Table>
           ) : (
             <div className='mx-auto'>
               <Loader2 size='40' className='animate-spin' />
