@@ -1,4 +1,8 @@
-import { DefaultApi, Template } from '@/_generated/typescript-fetch'
+import {
+  DefaultApi,
+  Template,
+  TemplateContent,
+} from '@/_generated/typescript-fetch'
 import { Button } from '@/shadcnui/ui/button'
 import {
   Dialog,
@@ -11,7 +15,7 @@ import {
 import { Input } from '@/shadcnui/ui/input'
 import { bottomRightBtnClass } from '@/utils'
 import { FolderKanban, Loader2 } from 'lucide-react'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { TempsTableBody } from './TempsTableBody'
 import FlexDocument from 'flexsearch/dist/module/document'
 import { type Document as FlexDocT } from '@types/flexsearch'
@@ -23,9 +27,16 @@ import {
   TableRow,
 } from '@/shadcnui/ui/table'
 import { NewTempPopover, bottomBtnClass } from './NewTempPopover'
+import { DEFAULT_HTML } from '../util'
 
-export const FileMgr = React.memo(
-  ({ className }: { className: React.HTMLAttributes<never>['className'] }) => {
+export const TempMgr = React.memo(
+  ({
+    className,
+    onTempOpened,
+  }: {
+    className: React.HTMLAttributes<never>['className']
+    onTempOpened: (temp: TemplateContent) => void
+  }) => {
     const index = React.useRef<FlexDocT<Template> | null>(null)
 
     const [allTemps, setAllTemps_] = React.useState<Template[] | null>(null)
@@ -87,9 +98,13 @@ export const FileMgr = React.memo(
       return rv
     }, [searchText, index, allTemps])
 
+    const [isDialogOpen, setIsDialogOpen] = React.useState(false)
+
     return (
       <Dialog
+        open={isDialogOpen}
         onOpenChange={isOpen => {
+          setIsDialogOpen(isOpen)
           if (isOpen && allTemps == null) refresh().catch(console.error)
         }}
       >
@@ -127,7 +142,11 @@ export const FileMgr = React.memo(
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TempsTableBody filteredTemps={filteredTemps} />
+                <TempsTableBody
+                  filteredTemps={filteredTemps}
+                  onTempOpened={onTempOpened}
+                  setIsDialogOpen={setIsDialogOpen}
+                />
               </TableBody>
               {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
             </Table>
@@ -154,4 +173,4 @@ export const FileMgr = React.memo(
   }
 )
 
-FileMgr.displayName = 'FileMgr'
+TempMgr.displayName = 'FileMgr'

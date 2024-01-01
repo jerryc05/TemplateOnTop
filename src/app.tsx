@@ -1,20 +1,16 @@
+import React from 'react'
 import { AlwaysOnTop } from './components/AlwaysOnTop'
 import { MyWangEditor as Editor } from './components/WangEditor'
 
-export const App = () => (
-  <>
-    <AlwaysOnTop className='fixed right-5 bottom-[2rem] z-10' />
-    <div
-      style={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <div className='my-3 text-center font-bold text-4xl'>
-        Template Helper!
+export function App() {
+  const [title, setTitle] = React.useState<string>('Template Helper!')
+  return (
+    <>
+      <AlwaysOnTop className='fixed right-5 bottom-[2rem] z-10' />
+      <div className='h-full flex flex-col'>
+        <div className='my-3 text-center font-bold text-4xl'>{title}</div>
+        <Editor className='m-[2rem] mt-0 flex-grow' setTitle={setTitle} />
       </div>
-      <Editor style={{ flexGrow: 1, margin: '2rem', marginTop: 0 }} />
-    </div>
-  </>
-)
+    </>
+  )
+}

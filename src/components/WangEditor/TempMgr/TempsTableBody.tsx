@@ -1,11 +1,26 @@
-import { Template } from '@/_generated/typescript-fetch'
+import { Template, TemplateContent } from '@/_generated/typescript-fetch'
 import { TableCell, TableRow } from '@/shadcnui/ui/table'
 import React, { useEffect } from 'react'
 
 export const TempsTableBody = React.memo(
-  ({ filteredTemps }: { filteredTemps: Template[] | null }) => {
+  ({
+    filteredTemps,
+    onTempOpened,
+    setIsDialogOpen,
+  }: {
+    filteredTemps: Template[] | null
+    onTempOpened: (temp: TemplateContent) => void
+    setIsDialogOpen: (isOpen: boolean) => void
+  }) => {
     return filteredTemps?.map(temp => (
-      <TableRow key={temp.id}>
+      <TableRow
+        key={temp.id}
+        className='cursor-pointer'
+        onClick={() => {
+          onTempOpened(temp)
+          setIsDialogOpen(false)
+        }}
+      >
         <TableCell className='px-1 w-6 font-medium'>{temp.id}</TableCell>
         <TableCell className='px-1 max-w-36 overflow-hidden overflow-ellipsis'>
           {temp.title}

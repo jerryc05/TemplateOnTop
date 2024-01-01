@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
 import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 
@@ -15,15 +15,20 @@ import {
 } from '@/utils'
 import { CopyBtn } from './CopyBtn'
 import { SaveBtn } from './SaveBtn'
-import { FileMgr } from './TempMgr'
+import { TempMgr } from './TempMgr'
 import { DEFAULT_HTML } from './util'
+import { TemplateContent } from '@/_generated/typescript-fetch'
 
-export function MyWangEditor(
-  props: Readonly<React.HTMLAttributes<HTMLDivElement>>
-) {
-  const [editor, setEditor] = useState<IDomEditor | null>(null)
-  const [html, setHtml] = useState<string>('')
-  const [originalContent, setOriginalContent] = useState<string>(DEFAULT_HTML)
+export function MyWangEditor({
+  className,
+  setTitle,
+}: {
+  className: Readonly<React.HTMLAttributes<never>['className']>
+  setTitle: (title: string) => void
+}) {
+  const [editor, setEditor] = React.useState<IDomEditor | null>(null)
+  const [html, setHtml] = React.useState<string>('')
+  const [originalHtml, setOriginalHtml] = React.useState<string>(DEFAULT_HTML)
 
   const toolbarConfig: Partial<IToolbarConfig> = {}
   const editorConfig: Partial<IEditorConfig> = {
@@ -41,26 +46,29 @@ export function MyWangEditor(
     }
   }, [editor])
 
+  const onTempOpened = React.useCallback(
+    (temp: TemplateContent) => {
+      setTitle(temp.title)
+      setHtml(temp.html)
+      setOriginalHtml(temp.html)
+    },
+    [setTitle, setHtml, setOriginalHtml]
+  )
+
   return (
     <>
       <CopyBtn className='fixed right-5 bottom-[14rem] z-10' editor={editor} />
       <SaveBtn
         className='fixed right-5 bottom-[10rem] z-10'
-        isChanged={html !== originalContent}
-        originalContent={originalContent}
+        isChanged={html !== originalHtml}
+        originalContent={originalHtml}
       />
-      <FileMgr className='fixed right-5 bottom-[6rem] z-10' />
+      <TempMgr
+        className='fixed right-5 bottom-[6rem] z-10'
+        onTempOpened={onTempOpened}
+      />
       <div
-        {...{
-          ...props,
-          style: {
-            ...props.style,
-            border: '0.2rem solid #ccc',
-            // borderRadius: '1rem',
-            display: 'flex',
-            flexDirection: 'column',
-          },
-        }}
+        className={`${className} flex flex-col border-[0.2rem] border-[#ccc]`}
       >
         <Toolbar
           editor={editor}
