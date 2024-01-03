@@ -8,6 +8,7 @@ from app import main
 try:
     sp.check_call((sys.executable, "-m", "pip", "install", "-r", "requirements.txt"))
     main()
+    input("按回车键退出！")
 
 except Exception:
     print_exc()
