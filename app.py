@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import time
 from typing import Any, cast
+import sys
 
 from fastapi import FastAPI, HTTPException, Response, status
 from fastapi.responses import FileResponse
@@ -233,8 +234,6 @@ def main():
 
 
 if __name__ == "__main__":
-    import sys
-
     if sys.argv[1:] == ["--dry-run"]:
         sys.exit(0)
     main()
