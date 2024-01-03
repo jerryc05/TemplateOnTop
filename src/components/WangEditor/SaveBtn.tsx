@@ -22,7 +22,7 @@ export const SaveBtn = React.memo(
     return (
       <Button
         className={`${bottomRightBtnClass} ${
-          !pending ? (isChanged ? 'animate-pulse border-black' : '') : ''
+          !pending ? (isChanged ? 'animate-pulse border-red-500' : '') : ''
         } ${className}`}
         variant='outline'
         disabled={!isChanged}
