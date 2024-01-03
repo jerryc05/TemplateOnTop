@@ -22,10 +22,10 @@ export const TempsTableBody = React.memo(
         }}
       >
         <TableCell className='px-1 w-6 font-medium'>{temp.id}</TableCell>
-        <TableCell className='px-1 max-w-36 overflow-hidden overflow-ellipsis'>
+        <TableCell className='px-1 max-w-36 truncate'>
           {temp.title}
         </TableCell>
-        <TableCell className='px-1 pr-3 max-w-48 overflow-hidden overflow-ellipsis'>
+        <TableCell className='px-1 pr-3 max-w-48 truncate'>
           {temp.html}
         </TableCell>
         <TableCell className='px-1'>
