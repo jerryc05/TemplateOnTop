@@ -65,7 +65,7 @@ export function MyWangEditor({
     <>
       <CopyBtn className='fixed right-5 bottom-[14rem] z-10' editor={editor} />
       <SaveBtn
-        className='fixed right-5 bottom-[10rem] z-10'
+        className='border-2 fixed right-5 bottom-[10rem] z-10'
         isChanged={html !== originalHtml}
         onSaveSuccess={onSaveSuccess}
         id={id}
