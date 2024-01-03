@@ -258,15 +258,15 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Sleep 
+     * Ping
      */
-    async sleepSleepGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async pingPingGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/sleep`,
+            path: `/ping`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -280,10 +280,10 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Sleep 
+     * Ping
      */
-    async sleepSleepGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.sleepSleepGetRaw(initOverrides);
+    async pingPingGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.pingPingGetRaw(initOverrides);
         return await response.value();
     }
 

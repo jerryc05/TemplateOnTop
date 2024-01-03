@@ -303,10 +303,10 @@
     }
    }
   },
-  "/sleep": {
+  "/ping": {
    "get": {
-    "summary": "Sleep ",
-    "operationId": "sleep__sleep_get",
+    "summary": "Ping",
+    "operationId": "ping_ping_get",
     "responses": {
      "200": {
       "description": "Successful Response",

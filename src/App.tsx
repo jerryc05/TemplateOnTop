@@ -15,13 +15,13 @@ export function App() {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       while (!stop) {
         try {
+          await new DefaultApi().pingPingGetRaw()
           setOnline(true)
-          await new DefaultApi().sleepSleepGet()
         } catch (e) {
           console.dir(e)
           setOnline(false)
-          await new Promise(resolve => setTimeout(resolve, 500))
         }
+        await new Promise(resolve => setTimeout(resolve, 500))
       }
     })().catch(console.error)
     return () => {

@@ -205,10 +205,9 @@ def delete_template(id_: int) -> "list[int]":
 #
 
 
-@api.get("/sleep")
-async def sleep_():
-    while True:
-        await asyncio.sleep(0)
+@api.get("/ping")
+def ping():
+    return
 
 
 with open(working_dir / "openapi.json", "w") as f:
