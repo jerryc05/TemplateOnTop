@@ -207,12 +207,7 @@ with open(working_dir / "openapi.json", "w") as f:
     json.dump(obj=api.openapi(), fp=f, indent=1)
 
 
-if __name__ == "__main__":
-    import sys
-
-    if sys.argv[1:] == ["--dry-run"]:
-        sys.exit(0)
-
+def main():
     import ipaddress
     import os
     import socket
@@ -235,3 +230,11 @@ if __name__ == "__main__":
         reload="--reload" in sys.argv[1:],
         log_level="info",
     )
+
+
+if __name__ == "__main__":
+    import sys
+
+    if sys.argv[1:] == ["--dry-run"]:
+        sys.exit(0)
+    main()
