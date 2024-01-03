@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import asyncio
 import json
 from pathlib import Path
 import time
@@ -202,6 +203,12 @@ def delete_template(id_: int) -> "list[int]":
 #
 #
 #
+
+
+@api.get("/sleep")
+async def sleep_():
+    while True:
+        await asyncio.sleep(0)
 
 
 with open(working_dir / "openapi.json", "w") as f:

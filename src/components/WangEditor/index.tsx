@@ -92,7 +92,7 @@ export function MyWangEditor({
             setHtml(editor.getHtml())
           }}
           mode='default'
-          style={{ flexGrow: 1 }}
+          className={`grow`}
         />
       </div>
     </>

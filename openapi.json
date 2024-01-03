@@ -302,6 +302,22 @@
      }
     }
    }
+  },
+  "/sleep": {
+   "get": {
+    "summary": "Sleep ",
+    "operationId": "sleep__sleep_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
   }
  },
  "components": {
