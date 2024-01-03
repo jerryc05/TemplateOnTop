@@ -2,7 +2,6 @@
 
 import subprocess as sp
 import sys
-import time
 from traceback import print_exc
 from pathlib import Path
 from app import main
@@ -25,6 +24,3 @@ except KeyboardInterrupt:
 except Exception:
     print_exc()
     print("\n\n它寄了！！！把错误信息截图发给我！！！\n\n")
-
-time.sleep(3)
-input()
