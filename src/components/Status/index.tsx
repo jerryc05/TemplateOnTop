@@ -46,10 +46,12 @@ export function Status() {
           </div>
         </div>
       )}
-      <Wifi
-        strokeWidth='2.5'
-        color={backendVersion != null ? '#4C9900' : 'red'}
-      />
+
+      {backendVersion != null ? (
+        <Wifi strokeWidth='2.5' color='#4C9900' />
+      ) : (
+        <WifiOff strokeWidth='2.5' color='red' />
+      )}
     </div>
   )
 }
