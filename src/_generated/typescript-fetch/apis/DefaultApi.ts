@@ -258,36 +258,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Ping
-     */
-    async pingPingGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/ping`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Ping
-     */
-    async pingPingGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.pingPingGetRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Topmost Windows
      */
     async topmostWindowsTopmostPostRaw(requestParameters: TopmostWindowsTopmostPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
@@ -321,6 +291,36 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async topmostWindowsTopmostPost(requestParameters: TopmostWindowsTopmostPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.topmostWindowsTopmostPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Version
+     */
+    async versionVersionGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/version`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Version
+     */
+    async versionVersionGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.versionVersionGetRaw(initOverrides);
         return await response.value();
     }
 

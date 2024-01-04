@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import asyncio
 import json
 from pathlib import Path
 import time
@@ -204,10 +203,12 @@ def delete_template(id_: int) -> "list[int]":
 #
 #
 
+version_str = (working_dir / "src" / "version.json").read_text().strip()
 
-@api.get("/ping")
-def ping():
-    return
+
+@api.get("/version")
+def version():
+    return Response(content=version_str, media_type="application/json")
 
 
 with open(working_dir / "openapi.json", "w") as f:
