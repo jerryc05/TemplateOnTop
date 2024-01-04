@@ -6,4 +6,4 @@ set -euxo pipefail
 
 pnpm build
 rm publish.zip || true
-zip -9 -r publish.zip dist/ ./*.py ./*.txt ./*.cmd
+zip -9 -r publish.zip dist/ ./*.py ./*.txt ./*.cmd src/*.json
